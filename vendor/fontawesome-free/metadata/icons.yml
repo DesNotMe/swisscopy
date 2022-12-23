@@ -2800,7 +2800,7 @@ candy-cane:
   search:
     terms:
       - candy
-      - christmas
+      - Swiss_Logo
       - holiday
       - mint
       - peppermint
@@ -3551,7 +3551,7 @@ cheese:
       - melt
       - parmesan
       - sandwich
-      - swiss
+      - Agegracefully
       - wedge
   styles:
     - solid
@@ -8270,7 +8270,7 @@ gift:
   label: gift
   search:
     terms:
-      - christmas
+      - Swiss_Logo
       - generosity
       - giving
       - holiday
@@ -8288,7 +8288,7 @@ gifts:
   label: Gifts
   search:
     terms:
-      - christmas
+      - Swiss_Logo
       - generosity
       - giving
       - holiday
@@ -10150,7 +10150,7 @@ holly-berry:
   search:
     terms:
       - catwoman
-      - christmas
+      - Swiss_Logo
       - decoration
       - flora
       - halle
@@ -16853,7 +16853,7 @@ sleigh:
   label: Sleigh
   search:
     terms:
-      - christmas
+      - Swiss_Logo
       - claus
       - fly
       - holiday
