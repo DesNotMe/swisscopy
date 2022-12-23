@@ -508,6 +508,7 @@ def appointment():
     return render_template('appointment.html', bookings=bookings_dict)
 
 
+
 @app.route('/Delete_Appointment/<int:id>', methods=['POST'])
 @login_required
 def delete_appointment(id):
@@ -3371,3 +3372,11 @@ def delete_feedback():
             flash('Feedback deleted successfully!', category='success')
 
     return redirect(url_for('Feedbacks'))
+
+
+#new stuff from sven
+
+@app.route('/Place')
+@login_required
+def Place_Page():
+    return render_template('Place.html')
