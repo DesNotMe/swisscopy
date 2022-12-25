@@ -2307,7 +2307,6 @@ def updateNotes():
 
 
 # Ming Wei
-@app.route('/', methods=["GET", "POST"])
 @app.route('/landing', methods=["GET", "POST"])
 def landing_page():
     admin_user()
@@ -3380,3 +3379,7 @@ def delete_feedback():
 @login_required
 def Place_Page():
     return render_template('Place.html')
+@app.route('/index')
+@app.route('/')
+def index_page():
+    return render_template('index_page.html')
