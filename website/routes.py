@@ -25,7 +25,7 @@ from werkzeug.utils import secure_filename
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'Agegracefullybothelper@gmail.com'
+app.config['MAIL_USERNAME'] = 'Swissbothelper@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Pi!12345'
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
