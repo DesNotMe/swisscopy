@@ -1481,12 +1481,80 @@ def Add_Item():
 
     return render_template('AddItem.html', add_item_form=add_item_form), 200
 
+@app.route("/retrieveItems")
+def retrieve_items():
+    Items_Dict = {}
+    Item_Database = shelve.open('website/databases/items/items.db', 'r')
+    Items_Dict = Item_Database['ItemInfo']
+    print(Items_Dict)
 
-@app.route('/UpdateItemForm', methods=['POST', 'GET'])
-@login_required
-def Update_Item_Form():
-    add_item_form = Add_Item_Form()
-    return render_template('UpdateItem.html', add_item_form=add_item_form)
+    Item_Database.close()
+
+    items_list = []
+    for key in Items_Dict:
+        item = Items_Dict.get(key)
+        items_list.append(item)
+
+    return render_template('retrieveItems.html', count=len(items_list), items_list=items_list)
+
+@app.route('/updateItem/<id>', methods=['GET', 'POST'])
+def update_item(id):
+    update_item_form = Add_Item_Form()
+    Items_Dict = {}
+
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'w')
+        #Your_Products_Database = shelve.open('website/databases/products/products.db', 'c')
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+        
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    else:
+        if request.method == 'POST' and update_item_form.validate():
+            item = Items_Dict.get(id)
+            item.set_name(update_item_form.name.data)
+            item.set_quantity(update_item_form.quantity.data)
+            item.set_description(update_item_form.description.data)
+            item.set_price(update_item_form.price.data)
+            Item_Database['ItemInfo'] = Items_Dict
+            Item_Database.close()
+     
+            return redirect(url_for('retrieve_items'))
+        else:
+            Item_Database = shelve.open('website/databases/items/items.db', 'r')
+            Items_dict = Item_Database['ItemInfo']
+            Item_Database.close()
+
+            item = Items_dict.get(id)
+            update_item_form.name.data = item.get_name()
+            update_item_form.quantity.data = item.get_quantity()
+            update_item_form.description.data = item.get_description()
+            update_item_form.price.data = item.get_price()
+
+        return render_template('UpdateItem.html', update_item_form=update_item_form), 200
+
+
+
+@app.route('/deleteItem/<id>', methods=['POST'])
+def delete_item(id):
+    Item_dict = {}
+    Item_Database = shelve.open('website/databases/items/items.db', 'w')
+    Items_Dict = Item_Database['ItemInfo']
+
+    Items_Dict.pop(id)
+
+    Item_Database["ItemInfo"] = Items_Dict
+    Item_Database.close()
+
+    return redirect(url_for('retrieve_items'))
+
 
 
 @app.route('/PurchaseItem', methods=['POST', 'GET'])

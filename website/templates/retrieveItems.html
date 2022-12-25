@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Library Loan System - Retrieve Users{% endblock %}
+
+{% block content %}
+<section class="section-content padding-y">
+<div class="container px-4 px-lg-5 mt-5">
+  
+
+  <h1 class="display-4">Retrieve Items</h1>
+  <div>
+    {% if count == 0 %}
+    <p>There are no items.</p>
+    {% elif count == 1 %}
+    <p>There is 1 item.</p>
+    {% else %}
+    <p>There are {{ count }} items.</p>
+    {% endif %}
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Count ID</th>
+          <th>UUID</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Owner</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in items_list %}
+      <tr>
+          <td>{{ item.get_count_id() }}</td>
+          <td>{{ item.get_id() }}</td>
+          <td>{{ item.get_name() }}</td>
+          <td>{{ item.get_quantity() }}</td>
+          <td>{{ item.get_price() }}</td>
+          <td>{{ item.get_owner() }}</td>
+          <td><a href="/updateItem/{{ item.get_id() }}" class="btn btn-warning">Update</a></td>
+          <td>
+            <form action="{{url_for('delete_item', id=item.get_id())}}" method="POST">
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{item.get_id()}}">
+    Delete
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal" id="myModal_{{item.get_id()}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Confirmation</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          Are you sure you want to delete?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <input type="submit" value="Delete" class="btn btn-danger">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+            </form>
+          </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+</div>
+{% endblock %}

@@ -162,42 +162,46 @@ $('.image-upload-wrap').bind('dragleave', function () {
         <div class="card-body">
         <h4 class="card-title mb-4" style="margin-bottom: 30px;">Update Product</h4>
        <form method="POST" style="margin-top: 60px;">
-       {{ add_item_form.hidden_tag() }}
+       {{ update_item_form.hidden_tag() }}
         <label>Update Product Image:</label>
+
         <div class="file-upload">
-
-
-          <div class="image-upload-wrap">
-            <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
-            <div class="drag-text">
-              <h3><i class="fa fa fa-download" aria-hidden="true"></i> Drag and drop a file or select add Image</h3>
+            <div class="image-upload-wrap">
+              <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+              <div class="drag-text">
+                <h3><i class="fa fa fa-download" aria-hidden="true"></i> Drag and drop a file or select add Image</h3>
+              </div>
+            </div>
+            <div class="file-upload-content">
+              <img class="file-upload-image" src="#" alt="your image" />
+              <div class="image-title-wrap">
+                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+              </div>
             </div>
           </div>
-          <div class="file-upload-content">
-            <img class="file-upload-image" src="#" alt="your image" />
-            <div class="image-title-wrap">
-              <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-            </div>
-          </div>
-        </div>
+        
            <div class="form-group">
                <img src='' class="img-sm rounded-circle border">
            </div>
           <div class="form-row">
               <div class="col form-group">
-                {{ add_item_form.name.label() }}
-                {{ add_item_form.name(class='form-control form-control-user', placeholder='Enter Item Name') }}
+                {{ update_item_form.name.label() }}
+                {{ update_item_form.name(class='form-control form-control-user', placeholder='Enter Item Name') }}
               </div> <!-- form-group end.// -->
 
           </div> <!-- form-row.// -->
           <div class="form-group">
-                {{ add_item_form.description.label() }}
-                {{ add_item_form.description(class='form-control form-control-user', placeholder='Enter Item Description Name') }}
+                {{ update_item_form.description.label() }}
+                {{ update_item_form.description(class='form-control form-control-user', placeholder='Enter Item Description Name') }}
           </div> <!-- form-group end.// -->
            <div class="form-group" >
-                {{ add_item_form.price.label() }}
-                {{ add_item_form.price(class='form-control form-control-user', placeholder='Enter Item Price') }}
-              </div> <!-- form-group end.// -->
+                {{ update_item_form.price.label() }}
+                {{ update_item_form.price(class='form-control form-control-user', placeholder='Enter Item Price') }}
+              </div>  
+            <div class="form-group" >
+                {{ update_item_form.quantity.label() }}
+                {{ update_item_form.quantity(class='form-control form-control-user', placeholder='Enter Item Quantity') }}
+            </div><!-- form-group end.// -->
 
           <!-- <div class="border border-danger 600" style="text-align: center; margin-top: 20px;">
          <h4 class="text-danger" style="margin-top: 20px;">Danger Zone (Disable Product)</h4>
@@ -212,10 +216,11 @@ $('.image-upload-wrap').bind('dragleave', function () {
           </div> -->
 
     </div>
-          <button style="margin: 30px auto 30px auto; width: 60%;" class="btn btn-primary btn-block">Add Item</button>
+          <button style="margin: 30px auto 30px auto; width: 60%;" class="btn btn-primary btn-block">Update Item</button>
         </form>
         </div> <!-- card-body.// -->
       </div>
       </div>
 
 {% endblock %}
+<script src="../static/js/Additem.js"></script>

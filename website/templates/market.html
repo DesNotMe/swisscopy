@@ -11,6 +11,7 @@
 <section class="section-intro padding-y">
 
 <div class="container">
+   
 <!--    <form>-->
 
 <!--        <div class="input-group">-->
@@ -63,6 +64,7 @@
 <br>
 <!-- ========================= SECTION SPECIAL ========================= -->
 <div class="container">
+    
 <article class="card card-body">
 
 
@@ -107,6 +109,9 @@
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 <!-- ========================= WEBSITE MAIN // ========================= -->
+        <form action="{{ url_for('retrieve_items') }}" method="GET">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Retrieve Items</button>
+        </form>
     {% if items|length != 0 %}
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -193,7 +198,11 @@
                         <div class="text-center"><button class="btn btn-outline-dark" data-toggle="modal" data-target="#Modal-MoreInfo--{{items[i].get_id()}}">More Info</button></div>
                         <div class="text-center" style="margin-top: 15px;">
                         {% if items[i].get_owner() == current_user.username %}
-                            <td><button class="btn btn-outline btn-warning">Your Products</button></td>
+                            <form action="{{ url_for('update_item', id=items[i].get_id()) }}" method="GET" style="margin-top: 15px;">
+                                <td><button class="btn btn-outline btn-warning">Edit Product</button></td>
+                            </form>
+                            <br>
+                            <td><button class="btn btn-outline btn-block">Your Products</button></td>
                             {% elif items[i].get_id() in DisabledProducts%}
                             <td><button class="btn btn-outline btn-danger" disabled>Item Disabled</button></td>
                             {% else %}
@@ -332,4 +341,6 @@
 
 {% endfor %}
     </div> -->
+    
+    
 {% endblock %}

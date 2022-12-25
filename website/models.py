@@ -95,7 +95,10 @@ class Img(db.Model):
 
 
 class Item:
+    count_id = 0
     def __init__(self, id, name, quantity, description, price, owner, owner_id, image):
+        Item.count_id += 1
+        self.__count_id = Item.count_id
         self.__id = id
         self.__name = name
         self.__quantity = quantity
@@ -107,6 +110,9 @@ class Item:
         self.__qty_purchased = None
         self.__total_cost = None
         self.__image = image
+
+    def get_count_id(self):
+        return self.__count_id
 
     def get_id(self):
         return self.__id
