@@ -37,11 +37,6 @@ db_tempemail['email'] = None
 db_tempemail.close()
 
 
-# For Error Handling when user enters invalid url address
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('error404.html'), 404
-
 
 @app.context_processor
 def cart_database():
@@ -3386,24 +3381,8 @@ def index_page():
 @login_required
 def warranty_page():
     return render_template('warranty.html')
-@app.errorhandler(400)
-def page_not_found(e):
-    return render_template('error400.html'), 400
-@app.errorhandler(401)
-def page_not_found(e):
-    return render_template('error401.html'), 401
-@app.errorhandler(402)
-def page_not_found(e):
-    return render_template('error402.html'), 402
-@app.errorhandler(403)
-def page_not_found(e):
-    return render_template('error403.html'), 403
+
+@app.route('/404')
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error404.html'), 404
-@app.errorhandler(405)
-def page_not_found(e):
-    return render_template('error405.html'), 405
-@app.errorhandler(500)
-def page_not_found(e):
-    return render_template('error500.html'), 500
