@@ -37,6 +37,11 @@ db_tempemail['email'] = None
 db_tempemail.close()
 
 
+# For Error Handling when user enters invalid url address
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error404.html'), 404
+
 
 @app.context_processor
 def cart_database():
@@ -553,6 +558,7 @@ def market_page():
 
         if "EventInfo" not in event_database:
             event_database["EventInfo"] = event_dict
+            return redirect(url_for('appointment'))
         else:
             event_dict = event_database["EventInfo"]
 
@@ -3381,7 +3387,6 @@ def index_page():
 @login_required
 def warranty_page():
     return render_template('warranty.html')
-
 @app.route('/404')
 @app.errorhandler(404)
 def page_not_found(e):
