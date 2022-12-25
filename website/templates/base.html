@@ -33,36 +33,6 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='../static/vendor/datatables/dataTables.bootstrap4.min.css') }}">
 
-    <!--  Loader Css  -->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/loader.css') }}">-->
-    <!-- Bootstrap 4   -->
-<!--    <link href="../css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/bootstrap-alibaba.css') }}">-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/bootstrap-rtl-alibaba') }}">-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/responsive-alibaba') }}">-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/ui') }}">-->
-
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/bootstrap.css') }}">-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/responsive.css') }}">-->
-
-    <!-- Profile Page Custom Designs   -->
-<!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
-<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-<!--    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css') }}">-->
-<!--    <script src="{{ url_for('static', filename='//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js') }}"></script>-->
-<!--    <script src="{{ url_for('static', filename='//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js') }}"></script>-->
-
-
-    <!------ Include the above in your HEAD tag ---------->
-
-<!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
-<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
-<!--    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css') }}">-->
-<!--    <script src="{{ url_for('static', filename='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js') }}"></script>-->
-<!--    <script src="{{ url_for('static', filename='//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js') }}"></script>-->
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
   chat-icon="https:&#x2F;&#x2F;pbs.twimg.com&#x2F;media&#x2F;En4qZYLWEAAxB1X.png"
@@ -192,7 +162,7 @@
                             <div class="collapse-divider"></div>
                             <h6 class="collapse-header">Other Pages:</h6>
                             <a class="collapse-item" href="{{ url_for('about_us_page') }}">About Us Page</a>
-                            <a class="collapse-item" href="{{ url_for('market_page') }}">E-Shopping</a>
+                            <a class="collapse-item" href="{{ url_for('market_page') }}">Products</a>
                             <a class="collapse-item" href="{{ url_for('Current_Events_Page') }}">Our Current Events</a>
 
                         {% else %}
@@ -481,7 +451,7 @@
 <!-- Footer -->
 <footer class="page-footer font-small unique-color-dark" id="FooterId">
 
-    <div style="background-color: #4e73df; color:white">
+    <div style="background-color: #2b2b2b; color:white">
       <div class="container">
   
         <!-- Grid row-->
@@ -536,9 +506,9 @@
         <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
   
           <!-- Content -->
-          <h6 class="text-uppercase font-weight-bold">Swiss's Promise</h6>
+          <h6 class="text-uppercase font-weight-bold">Agegracefully's Promise</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-          <p>Swiss puts its Staff and Customer relations first and ensuring reliable banking services while helping our customers find the best deals while shopping on our platform.</p>
+          <p>Agegracefully puts its Staff and Customer relations first and ensuring reliable banking services while helping our customers find the best deals while shopping on our platform.</p>
   
         </div>
         <!-- Grid column -->
@@ -603,7 +573,10 @@
             <a href="{{ url_for('Booking_Page') }}">Make an Appointment</a>
           </p>
           <p>
-            <a href="#!">Help</a>
+            <a href="{{ url_for('Place_Page') }}">Help</a>
+          </p>
+          <p>
+            <a href="{{ url_for('warranty_page') }}">Warranty</a>
           </p>
   
         </div>
@@ -618,7 +591,7 @@
           <p>
             <i class="fas fa-home mr-3"></i> 511 Canberra Road, #02-03, Sembawang Mart, Singapore 750511</p>
           <p>
-            <i class="fas fa-envelope mr-3"></i> Swiss@gmail.com</p>
+            <a><i class="fas fa-envelope mr-3"></i> Agegracefully@gmail.com</p></a>
           <p>
             <i class="fas fa-phone mr-3"></i> + 65 234 567 88</p>
           <p>
@@ -635,7 +608,7 @@
   
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">© 2020 Copyright:
-      <a href="#"> Swiss</a>
+      <a href="#"> Agegracefully</a>
     </div>
     <!-- Copyright -->
   

@@ -25,7 +25,7 @@ from werkzeug.utils import secure_filename
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'swissbothelper@gmail.com'
+app.config['MAIL_USERNAME'] = 'Swissbothelper@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Pi!12345'
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -36,11 +36,6 @@ db_tempemail = shelve.open('website/databases/tempemail/tempemail.db', 'c')
 db_tempemail['email'] = None
 db_tempemail.close()
 
-
-# For Error Handling when user enters invalid url address
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('error404.html'), 404
 
 
 @app.context_processor
@@ -506,6 +501,7 @@ def appointment():
         print(f"An Unknown Error has occurred, {e}")
 
     return render_template('appointment.html', bookings=bookings_dict)
+
 
 
 @app.route('/Delete_Appointment/<int:id>', methods=['POST'])
@@ -2374,7 +2370,6 @@ def updateNotes():
 
 
 # Ming Wei
-@app.route('/', methods=["GET", "POST"])
 @app.route('/landing', methods=["GET", "POST"])
 def landing_page():
     admin_user()
@@ -2535,7 +2530,7 @@ def forgot_password_page():
                 db_tempemail.close()
                 return redirect(url_for('forgot_password_page'))
 
-            msg = Message('Swiss Password Reset', sender='swissbothelper@gmail.com',
+            msg = Message('Agegracefully Password Reset', sender='Agegracefullybothelper@gmail.com',
                           recipients=[form.email_address.data])
             msg.body = f"Your one time password is, {otp}"
             mail.send(msg)
@@ -2908,7 +2903,6 @@ def Current_Events_Page():
         flash("An Error Has Occurred Trying to Read The Database", category="error")
     except Exception as e:
         flash(f"An Unknown Error has occurred, {e}")
-
     return render_template('currentevents.html', events=event_dict)
 
 
@@ -3438,4 +3432,29 @@ def delete_feedback():
             # feedback_database_uniqueID.close()
             flash('Feedback deleted successfully!', category='success')
 
+<<<<<<< HEAD
     return redirect(url_for('Feedbacks'))
+=======
+    return redirect(url_for('Feedbacks'))
+
+
+#new stuff from sven
+
+@app.route('/Place')
+@login_required
+def Place_Page():
+    return render_template('Place.html')
+@app.route('/index')
+@app.route('/')
+def index_page():
+    return render_template('index_page.html')
+@app.route('/warranty')
+@login_required
+def warranty_page():
+    return render_template('warranty.html')
+
+@app.route('/404')
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error404.html'), 404
+>>>>>>> 3a129d5519b509f0b8002433cb3f500fb244088e

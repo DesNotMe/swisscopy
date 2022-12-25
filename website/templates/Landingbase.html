@@ -2,20 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Swifty Bank{% endblock %}</title>
+    <title>{% block title %}Agegracefully{% endblock %}</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/Landingbase.css">
     <link rel = "icon" type = "image/png" href = "../static/images/letter-s.png">
 </head>
-<body>
-
-    
-{% block navbar %}
+<header>
+    {% block navbar %}
     {% include 'includes/_navbar.html' %}
 {% endblock %}
 
-<img src="../static/img/city-street.png" alt="Error!" width="100%" height="100%" style="overflow: hidden; position: absolute; top: 0; left: 0;">
+</header>
+<body>
+
+    
+
 
 {% with messages = get_flashed_messages(with_categories=true) %}
                     <!--    with_categories = true means it grabs the categories as well for messages-->
@@ -36,6 +38,7 @@
                     {% endwith %}
 
 <div class="PageContent">
+    <img src="https://cdn.midjourney.com/0e0bdf38-eda5-4a95-b5b2-a3a414ba8c7f/grid_0.png" alt="Error!" width="100%" height="100%" style="overflow: hidden; position: absolute; top: 0; left: 0;">
 
     <div class="Loginform">
         {% block form %}
@@ -46,14 +49,15 @@
     <div class="Content">
         {% block content %}
         <div class="container rounded" style="position: absolute;
-                                top: 190px;
+                                top: 300px;
                                 left: 100px;
                                 background-color: white;
                                 box-shadow: -2px 5px 5px rgba(0,0,0,0.9);
                                 padding: 15px;
-                                width: 350px;">
-    <h1>Beware of scams!</h1>
-    <p style=" font-size: medium;" >Swiss Personals will never ask you for your password.</p>
+                                width: 350px;
+                                ">
+    <h1>Welcome to Agegracefully!</h1>
+    <p style=" font-size: medium;" >We are happy that you are here!</p>
             <p style="font-size: medium;">If you do see any messages asking you for your password, please contact 123-4567-890 for further assistance.</p>
          </div>
 

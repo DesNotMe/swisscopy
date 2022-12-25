@@ -33,7 +33,7 @@ def admin_user():
             db.session.commit()
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'landing_page'
+login_manager.login_view = 'index_page'
 login_manager.login_message_category = 'info'
 # makes the message flashed blue when user is not authorised/logged in.
 

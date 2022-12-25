@@ -1355,7 +1355,7 @@
 	// - \u20BA - Turkish Lira
 	// - \u20B9 - Indian Rupee
 	// - R - Brazil (R$) and South Africa
-	// - fr - Swiss Franc
+	// - fr - Agegracefully Franc
 	// - kr - Swedish krona, Norwegian krone and Danish krone
 	// - \u2009 is thin space and \u202F is narrow no-break space, both used in many
 	// - Ƀ - Bitcoin
