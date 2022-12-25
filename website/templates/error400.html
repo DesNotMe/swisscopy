@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}400 Error Bad Request{% endblock %}
+
+{% block content %}
+
+<!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- 404 Error Text -->
+                    <div class="text-center">
+                        <div class="error mx-auto" data-text="400">400</div>
+                        <p class="lead text-gray-800 mb-5">Bad Request</p>
+                        <p class="text-gray-500 mb-0">The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing). Try reloading or using a different browser, made sure that all testing tools have been switch off.</p>
+                        <a href="{{ url_for('home_page') }}">&larr; Back to Home Page</a>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+
+            <!-- End of Main Content -->
+{% endblock %}
+

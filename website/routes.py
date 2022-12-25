@@ -2840,7 +2840,6 @@ def Current_Events_Page():
         flash("An Error Has Occurred Trying to Read The Database", category="error")
     except Exception as e:
         flash(f"An Unknown Error has occurred, {e}")
-
     return render_template('currentevents.html', events=event_dict)
 
 
@@ -3383,3 +3382,29 @@ def Place_Page():
 @app.route('/')
 def index_page():
     return render_template('index_page.html')
+@app.route('/warranty')
+@login_required
+def warranty_page():
+    return render_template('warranty.html')
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('error400.html'), 400
+@app.errorhandler(401)
+def page_not_found(e):
+    return render_template('error401.html'), 401
+@app.errorhandler(402)
+def page_not_found(e):
+    return render_template('error402.html'), 402
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('error403.html'), 403
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error404.html'), 404
+@app.errorhandler(405)
+def page_not_found(e):
+    return render_template('error405.html'), 405
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('error500.html'), 500
