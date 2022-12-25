@@ -3383,3 +3383,7 @@ def Place_Page():
 @app.route('/')
 def index_page():
     return render_template('index_page.html')
+@app.route('/warranty')
+@login_required
+def warranty_page():
+    return render_template('warranty.html')
