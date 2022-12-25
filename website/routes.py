@@ -3386,7 +3386,6 @@ def index_page():
 @login_required
 def warranty_page():
     return render_template('warranty.html')
-
 @app.errorhandler(400)
 def page_not_found(e):
     return render_template('error400.html'), 400
