@@ -28,6 +28,7 @@ def admin_user():
     db.create_all()
     with app.app_context():
         admin = User(admin=1, username='admin', password='admin123',email_address='admin@example.com', gender='rather not say')
+        
         if not User.query.filter_by(admin = admin.id).first() and not User.query.filter_by(email_address = admin.email_address).first() and not User.query.filter_by(username = admin.username).first():
             db.session.add(admin)
             db.session.commit()
