@@ -2761,7 +2761,7 @@ def user_management():
     return render_template('User_Management.html', users=users)
 
 
-@app.route('/user_managementupdate/<int:id>', methods=['POST', 'GET'])
+@app.route('/user_management/update/<int:id>', methods=['POST', 'GET'])
 @login_required
 def user_management_update(id):
     userID = User.query.filter_by(id=id).first()
