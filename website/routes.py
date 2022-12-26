@@ -557,6 +557,7 @@ def market_page():
 
         if "EventInfo" not in event_database:
             event_database["EventInfo"] = event_dict
+            return redirect(url_for('appointment'))
         else:
             event_dict = event_database["EventInfo"]
 
@@ -3439,3 +3440,23 @@ def delete_feedback():
             flash('Feedback deleted successfully!', category='success')
 
     return redirect(url_for('Feedbacks'))
+
+
+#new stuff from sven
+
+@app.route('/Place')
+@login_required
+def Place_Page():
+    return render_template('Place.html')
+@app.route('/index')
+@app.route('/')
+def index_page():
+    return render_template('index_page.html')
+@app.route('/warranty')
+@login_required
+def warranty_page():
+    return render_template('warranty.html')
+@app.route('/404')
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error404.html'), 404
