@@ -2375,7 +2375,6 @@ def updateNotes():
 
 
 # Ming Wei
-@app.route('/', methods=["GET", "POST"])
 @app.route('/landing', methods=["GET", "POST"])
 def landing_page():
     admin_user()
@@ -2388,7 +2387,9 @@ def landing_page():
         # if user exist and if password is correct
         attempted_user = User.query.filter_by(username=form.username.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
-            if attempted_user.account_availability(attempted_user.status) != 0:
+            if attempted_user.account_availability(attempted_user.status) == "sven":
+                return redirect(url_for('home_page'))
+            elif attempted_user.account_availability(attempted_user.status) != 0:
                 # checks username for valid user and checks if password is correct
                 login_user(attempted_user)
                 # 'login_user' is a built-in function for flask_login
@@ -3448,8 +3449,8 @@ def delete_feedback():
 @login_required
 def Place_Page():
     return render_template('Place.html')
-@app.route('/index')
 @app.route('/')
+@app.route('/index')
 def index_page():
     return render_template('index_page.html')
 @app.route('/warranty')
@@ -3460,3 +3461,6 @@ def warranty_page():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error404.html'), 404
+@app.route('/customer_warranty')
+def warranty_customer():
+    return render_template('warranty2.html')
