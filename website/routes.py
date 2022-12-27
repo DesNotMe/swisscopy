@@ -3464,3 +3464,9 @@ def page_not_found(e):
 @app.route('/customer_warranty')
 def warranty_customer():
     return render_template('warranty2.html')
+@app.route('/contact')
+def contact_us():
+    return render_template('contact.html')
+@app.route('/service')
+def service_help():
+    return render_template('service.html')

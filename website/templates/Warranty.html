@@ -11,10 +11,247 @@
 
 
 {% block content %}
-hello
-hello
-hello
-hello
-hello
-warranty
+  
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+html{
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+body{
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+    color:#454545;
+    user-select: none; 
+}
+.CountDown{
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    background-color: #F0F0F3;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    max-width: 80%;
+    width: 100%;
+    margin: 0 auto;
+}
+.CountDown-box{
+    text-align: center;
+    padding: 2em 2em;
+/*  Neumorphism  */
+    background: #F0F0F3;
+    box-shadow:  -10px -10px 30px #FFF,10px 10px 30px #AEAEC040;
+/*  Neumorphism  */
+    border-radius: 50px;
+}
+.CountDown-box h1{
+    font-size:3.5em;
+    padding: 0 ;
+    margin: 0;
+}
+
+.countDown-number{
+    width: 80%;
+    margin: 1em auto 0;
+    font-size: 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+.countDown-number .Neumorphism{
+      position: relative;
+      display:flex;
+      flex-direction: column; 
+      justify-content: center;
+      width: 150px;
+      height: 150px;
+      margin:0 auto; 
+      background: #F0F0F3;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width:480px) {
+    .CountDown{
+        overflow: auto;
+    }
+    .CountDown-box h1{
+        font-size:2.5em;
+    }
+    .countDown-number{
+        font-size: 30px;
+    }
+}
+@media only screen and (max-width:576px) {
+
+    .CountDown-box h1{
+        font-size:2.5em;
+    }
+}
+
+@media only screen and (max-width:920px) {
+    .countDown-number{
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      
+    }
+}
+@media only screen and (min-width:920px) {
+    .countDown-number .Neumorphism{
+      position: relative;
+      display:flex;
+      flex-direction: column; 
+      justify-content: center;
+      width: 150px;
+      height: 150px;
+      margin:0 auto; 
+      background: #F0F0F3;
+      box-shadow:  -10px -10px 30px #FFF,10px 10px 30px #AEAEC040;
+      border-radius: 50%;
+}
+}
+.neomorphic {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      transition: box-shadow 0.3s ease;
+    }
+.neomorphic:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+</style>
+<div class="CountDown">
+        <div class="container">
+            <div class="CountDown-box">
+                <h1> Warranty Count counDown<i class="fas fa-leaf"></i></h1>
+                <div class="countDown-number">
+                    <div class="counDown-day Neumorphism">
+                        <span id="days"></span>
+                        Day
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                    <div class="counDown-hour Neumorphism">
+                        <span id="hours"></span>
+                        Hour
+                        <span class="dot"></span>
+                    </div>
+                    <div class="counDown-minutes Neumorphism">
+                        <span id="minutes"></span>
+                        Minute
+                        <span class="dot"></span>
+                    </div>
+                    <div class="counDown-minutes Neumorphism">
+                        <span id="seconds"></span>
+                        Second
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="container mt-5">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1 class="text-black">What you bought</h1>
+            <p class="text-black">A sturdy and reliable walking stick for all your support needs.</p>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <img src="https://cdn.dribbble.com/userupload/2420199/file/original-06e610dfa4289120ce4f552730c6788b.png" class="img-fluid neomorph" alt="Walking Stick">
+          </div>
+          <div class="col-12 col-md-6">
+            <h2 class="text-black mb-3">Model: WS33</h2>
+            <h2 class="text-black mb-3">Features:</h2>
+            <ul class="text-black">
+              <li>Lightweight, yet strong and durable</li>
+              <li>Comfortable handle with wrist strap</li>
+              <li>Adjustable height</li>
+              <li>Non-slip rubber foot</li>
+            </ul>
+            <h2 class="text-black mt-3">Price: $49.99</h2>
+          </div>
+        </div>
+      </div>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="neomorphic p-4 text-center">
+          <img src="https://cdn.dribbble.com/userupload/2420199/file/original-06e610dfa4289120ce4f552730c6788b.png" alt="Walking stick" class="img-fluid mb-4">
+          <h1 class="mb-4">Walking Stick</h1>
+          <p>Our walking stick is made of high-quality materials and is designed to provide you with maximum support and stability while walking. It is perfect for those who need extra assistance when walking or have mobility issues.</p>
+          <a href="http://127.0.0.1:5000/Place" class="btn btn-primary btn-lg mt-4">Click to find out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container mt-5">
+    <h1 class="display-4 text-center mb-5">Warranty Information</h1>
+    <p class="lead text-center mb-5">At Walking Sticks, we stand behind the quality of our products and offer a limited lifetime warranty on all of our walking sticks. If you experience any issues with your walking stick, please contact us and we will work with you to resolve the issue.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="mb-3">What is covered by the warranty?</h2>
+        <ul class="list-unstyled">
+          <li class="mb-2">Manufacturing defects</li>
+          <li class="mb-2">Breakage due to normal use</li>
+          <li class="mb-2">Material defects</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h2 class="mb-3">What is not covered by the warranty?</h2>
+        <ul class="list-unstyled">
+          <li class="mb-2">Damage caused by misuse or abuse</li>
+          <li class="mb-2">Normal wear and tear</li>
+          <li class="mb-2">Modifications or alterations made to the product</li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-center mt-5">If you have any questions about the warranty or need to file a claim, please <a href="{{ url_for('service_help') }}" class="btn btn-primary">contact us</a>.</p>
+  </div>
+<script>
+      
+    const second = 1000;
+    const minute = second*60;
+    const hour = minute*60;
+    const day = hour*24;
+
+    function setElemInnerText(id, text){
+        const element = document.getElementById(id);
+        element.innerText = text;
+    }
+
+    function CountDown(){
+        const now = new Date().getTime();
+        const meet = new Date('April 14, 2022 14:59:59').getTime();
+        const unixtimeleft = now-meet;
+
+        // const dayelem = document.getElementById('day');
+        // dayelem.innerText = Math.floor(unixtimeleft/day);
+        
+        setElemInnerText('days', Math.floor(unixtimeleft / day));
+        setElemInnerText('hours', Math.floor(unixtimeleft % day / hour));
+        setElemInnerText('minutes', Math.floor(unixtimeleft % hour / minute));
+        setElemInnerText('seconds', Math.floor(unixtimeleft % minute / second));
+        
+    }
+    function run(){
+        CountDown();
+        setInterval(CountDown,second)
+    }
+  run();  </script>
 {% endblock %}
