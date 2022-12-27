@@ -175,8 +175,10 @@ body{
     }
 </style>
 <div class="CountDown">
+    
         <div class="container">
             <div class="CountDown-box">
+                <h1>Customer Membership</h1><br><br>
                 <h1> Warranty CountDown<i class="fas fa-leaf"></i></h1>
                 <div class="countDown-number">
                     <div class="counDown-day Neumorphism">
@@ -381,7 +383,103 @@ body{
     </div>
   </div>
 
+  <div class="container mt-5">
+    <div class="card bg-dark shadow-lg text-white">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-5">Member Dashboard</h2>
+        <div class="row mb-3">
+          <div class="col-12 col-md-6">
+            <h4>Recent Orders</h4>
+            <table class="table table-bordered text-white">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Ws33</td>
+                  <td>Jan 1, 2021</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Rubber TIP</td>
+                  <td>Jan 15, 2021</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12 col-md-6">
+            <h4>Account Information</h4>
+            <table class="table table-bordered text-white">
+              <tbody>
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>John Smith</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email</th>
+                  <td>john@example.com</td>
+                </tr>
+                <tr>
+                  <th scope="row">Address</th>
+                  <td>123 Main St., Anytown, USA 12345</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="#" class="btn btn-primary">Edit Account Information</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="container mt-5">
+    <div class="card bg-light shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-5">Member Events</h2>
+        <form>
+          <div class="form-group">
+            <label for="eventName">Event Name</label>
+            <input type="text" class="form-control" id="eventName" placeholder="Enter the event name">
+          </div>
+          <div class="form-group">
+            <label for="eventDate">Event Date</label>
+            <input type="date" class="form-control" id="eventDate">
+          </div>
+          <div class="form-group">
+            <label for="eventLocation">Event Location</label>
+            <input type="text" class="form-control" id="eventLocation" placeholder="Enter the event location">
+          </div>
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5 text-white">
+    <div class="card bg-dark shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-5 ">Member Blog</h2>
+        <form>
+          <div class="form-group">
+            <label for="blogTitle">Blog Title</label>
+            <input type="text" class="form-control" id="blogTitle" placeholder="Enter the blog title">
+          </div>
+          <div class="form-group">
+            <label for="blogContent">Blog Content</label>
+            <textarea class="form-control" id="blogContent" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <center class="container mt-5">
     <h1 class="display-4 text-center mb-5">Warranty Information</h1>
@@ -428,7 +526,7 @@ body{
 
     function CountDown(){
         const now = new Date().getTime();
-        const meet = new Date('April 14, 2022 14:59:59').getTime();
+        const meet = new Date('April 14, 2023 14:59:59').getTime();
         const unixtimeleft = now-meet;
 
         // const dayelem = document.getElementById('day');
@@ -445,6 +543,9 @@ body{
         setInterval(CountDown,second)
     }
   run();  </script>
+
+  
+
 
 <script src="../static/vendor/jquery/jquery.slim.min.js"></script>
 <script src="../static/vendor/jquery/jquery.min.js"></script>
