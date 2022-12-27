@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Place Page{% endblock %}
+{% block title %}Warranty{% endblock %}
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link
@@ -169,7 +169,7 @@ body{
         </div>
         <div class="row mt-5">
           <div class="col-12 col-md-6 mb-3 mb-md-0">
-            <img src="https://cdn.dribbble.com/userupload/2420199/file/original-06e610dfa4289120ce4f552730c6788b.png" class="img-fluid neomorph" alt="Walking Stick">
+            <img src="https://cdn.shopify.com/s/files/1/1861/4635/products/WebWS43_Tag2_large.jpg?v=1626936327" class="img-fluid neomorph" alt="Walking Stick">
           </div>
           <div class="col-12 col-md-6">
             <h2 class="text-black mb-3">Model: WS33</h2>
@@ -185,11 +185,150 @@ body{
         </div>
       </div>
 
+      <style>
+
+        .file-upload {
+          background-color: #ffffff;
+          width: 600px;
+        
+          padding: 20px;
+        }
+        
+        .file-upload-btn {
+          width: 100%;
+          margin: 0;
+          color: #fff;
+          background: #4571ff;
+          border: none;
+          padding: 10px;
+          border-radius: 4px;
+          border-bottom: 4px solid #15824B;
+          transition: all .2s ease;
+          outline: none;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+        
+        .file-upload-btn:hover {
+          background: #000000;
+          color: #ffffff;
+          transition: all .2s ease;
+          cursor: pointer;
+        }
+        
+        .file-upload-btn:active {
+          border: 0;
+          transition: all .2s ease;
+        }
+        
+        .file-upload-content {
+          display: none;
+          text-align: center;
+        }
+        
+        .file-upload-input {
+          position: absolute;
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          outline: none;
+          opacity: 0;
+          cursor: pointer;
+        }
+        
+        .image-upload-wrap {
+          margin-top: 20px;
+          border: 4px dashed #1FB264;
+          position: relative;
+        }
+        
+        .image-dropping,
+        .image-upload-wrap:hover {
+          background-color: #497ce9;
+          border: 4px dashed #ffffff;
+        }
+        
+        .image-title-wrap {
+          padding: 0 15px 15px 15px;
+          color: #222;
+        }
+        
+        .drag-text {
+          text-align: center;
+        }
+        
+        .drag-text h3 {
+          font-weight: 100;
+          text-transform: uppercase;
+          color: #15824B;
+          padding: 60px 0;
+        }
+        
+        .file-upload-image {
+          max-height: 200px;
+          max-width: 200px;
+        
+          padding: 20px;
+        }
+        
+        .remove-image {
+          width: 200px;
+          margin: 0;
+          color: #fff;
+          background: #cd4535;
+          border: none;
+          padding: 10px;
+          border-radius: 4px;
+          border-bottom: 4px solid #b02818;
+          transition: all .2s ease;
+          outline: none;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+        
+        .remove-image:hover {
+          background: #c13b2a;
+          color: #ffffff;
+          transition: all .2s ease;
+          cursor: pointer;
+        }
+        
+        .remove-image:active {
+          border: 0;
+          transition: all .2s ease;
+        }
+        
+        </style>
+        
+        <div class="container-fluid" style="margin-top: 30px;">
+    
+               <form method="POST" style="margin-top: 60px;" enctype="multipart/form-data">
+                <label>Add New Product Image:</label>
+                <div class="file-upload">
+        
+        
+                  <div class="image-upload-wrap">
+                    <input class="file-upload-input" type='file' name="pic" onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                      <h3><i class="fa fa fa-download" aria-hidden="true"></i> Drag and drop a file or select add Image</h3>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                       <img src='' class="img-sm rounded-circle border">
+                   </div>
+        
+            </div>
+                </form>
+                </div> <!-- card-body.// -->
+              </div>
+              </div>
+
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-6 mx-auto">
         <div class="neomorphic p-4 text-center">
-          <img src="https://cdn.dribbble.com/userupload/2420199/file/original-06e610dfa4289120ce4f552730c6788b.png" alt="Walking stick" class="img-fluid mb-4">
+          <img src="https://cdn.shopify.com/s/files/1/1861/4635/files/WS2305Crop_480x480.png?v=1671842979" alt="Walking stick" class="img-fluid mb-4">
           <h1 class="mb-4">Walking Stick</h1>
           <p>Our walking stick is made of high-quality materials and is designed to provide you with maximum support and stability while walking. It is perfect for those who need extra assistance when walking or have mobility issues.</p>
           <a href="http://127.0.0.1:5000/Place" class="btn btn-primary btn-lg mt-4">Click to find out</a>
@@ -200,10 +339,18 @@ body{
 
 
 
-  <div class="container mt-5">
+  <center class="container mt-5">
     <h1 class="display-4 text-center mb-5">Warranty Information</h1>
-    <p class="lead text-center mb-5">At Walking Sticks, we stand behind the quality of our products and offer a limited lifetime warranty on all of our walking sticks. If you experience any issues with your walking stick, please contact us and we will work with you to resolve the issue.</p>
+    <p class="lead text-center mb-5">At Agegracefully, we stand behind the quality of our products and offer a limited 1-year warranty on all of our walking sticks.<br> If you experience any issues with your walking stick, please contact us and we will work with you to resolve the issue.</p>
     <div class="row">
+        <div class="col-md-6">
+            <h2 class="mb-3">Why the warranty?</h2>
+            <ul class="list-unstyled">
+              <li class="mb-2">Quality Assurance</li>
+              <li class="mb-2">To create a safer environment for the elderly.</li>
+              <li class="mb-2">Allow us to serve you better</li>
+            </ul>
+          </div>
       <div class="col-md-6">
         <h2 class="mb-3">What is covered by the warranty?</h2>
         <ul class="list-unstyled">
@@ -222,7 +369,7 @@ body{
       </div>
     </div>
     <p class="text-center mt-5">If you have any questions about the warranty or need to file a claim, please <a href="{{ url_for('service_help') }}" class="btn btn-primary">contact us</a>.</p>
-  </div>
+  </center>
 <script>
       
     const second = 1000;
@@ -255,3 +402,5 @@ body{
     }
   run();  </script>
 {% endblock %}
+
+

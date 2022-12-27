@@ -3461,7 +3461,7 @@ def warranty_page():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error404.html'), 404
-@app.route('/customer_warranty')
+@app.route('/warranty_customer')
 def warranty_customer():
     return render_template('warranty2.html')
 @app.route('/contact')
