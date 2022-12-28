@@ -1,6 +1,19 @@
+{% extends "base.html" %}
+{% block title %}HelpPage{% endblock %}
+<!-- Custom fonts for this template-->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
-  
-  <body translate="no" data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+
+{% block content %}
+
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
+<body translate="no" data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
     <div class="flex-container">
       <div class="spinner" style="display: none;"><p>
           </p><div class="cube1"></div>
@@ -9,36 +22,23 @@
           <p></p>
       </div>
       <div class="flex-slide home">
-          <div class="flex-title flex-title-home" style="transform: rotate(90deg); top: 15%;">Home</div>
-          <div class="flex-about flex-about-home" style="opacity: 0;"><p>Click here to navigate to the home section of the website</p></div>
+          <div class="flex-title flex-title-home" style="transform: rotate(90deg); top: 15%; ">Carbon<br>Fiber</div>
+          <a href="#"><div class="flex-about flex-about-home" style="opacity: 0;"><p>Study living</p></div></a>
       </div>
       <div class="flex-slide about">
-          <div class="flex-title" style="transform: rotate(90deg); top: 15%;">About</div>
-          <div class="flex-about" style="opacity: 0;"><p>Click here to navigate to the About section of the website</p></div>
+          <div class="flex-title" style="transform: rotate(90deg); top: 15%;">LEDS</div>
+          <a href="#"><div class="flex-about" style="opacity: 0;"><p>Lighting the way</p></div></a>
       </div>
       <div class="flex-slide work">
-          <div class="flex-title" style="transform: rotate(90deg); top: 15%;">Work</div>
-          <div class="flex-about" style="opacity: 0;"><p>Listing relevant snippets of work:</p>
-              <ul>
-                  <li>First piece of work</li>
-                  <li>Second piece of work</li>
-                  <li>Third piece of work</li>
-              </ul>
-          </div>
+          <div class="flex-title" style="transform: rotate(90deg); top: 15%;">Alarm</div>
+          <a href="#"><div class="flex-about" style="opacity: 0;"><p>Safety First</p></div></a>
       </div>
       <div class="flex-slide contact">
-          <div class="flex-title" style="transform: rotate(90deg); top: 15%;">Contact</div>
-                  <div class="flex-about" style="opacity: 0;">
-                      <p>Use the contact form below</p>
-                      <form class="contact-form">
-                          <p>Email <input type="text" name="email"></p>
-                          <p>Comment <textarea type="text" name="comment" row="5"></textarea></p>
-                          <p><input type="submit" name="email" value="Send Message"></p>
-                      </form>
-  
-          </div>
+          <div class="flex-title" style="transform: rotate(90deg); top: 15%; ">Music</div>
+          <a href="#"><div class="flex-about" style="opacity: 0;"><p>Fighting dementia</p></div></a>
       </div>
   </div>
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
   <style>
       @import url("https://fonts.googleapis.com/css?family=Raleway");
   body {
@@ -56,9 +56,10 @@
     display: flex;
     overflow: hidden;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1000px) {
     .flex-container {
       flex-direction: column;
+      height: 200vh;
     }
   }
   
@@ -76,7 +77,7 @@
     -o-transition: all 500ms ease;
     transition: all 500ms ease;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1000px) {
     .flex-title {
       transform: rotate(0deg) !important;
     }
@@ -132,6 +133,7 @@
   @media screen and (max-width: 768px) {
     .flex-slide p {
       font-size: 2em;
+      
     }
   }
   
@@ -225,18 +227,6 @@
     background-attachment: fixed;
   }
   
-  .contact-form {
-    width: 100%;
-  }
-  
-  input {
-    width: 100%;
-  }
-  
-  textarea {
-    width: 100%;
-  }
-  
   .contact {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/769286/lake-696098_1920.jpg);
     background-size: cover;
@@ -249,6 +239,7 @@
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
+    color: #f1f1f1;
   }
   
   .spinner {
@@ -347,3 +338,6 @@
   })();
   //# sourceURL=pen.js
       </script>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      
+{% endblock %}

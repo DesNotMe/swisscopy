@@ -3448,7 +3448,7 @@ def delete_feedback():
 @app.route('/Place')
 @login_required
 def Place_Page():
-    return render_template('Place.html')
+    return render_template('benefits.html')
 @app.route('/')
 @app.route('/index')
 def index_page():
