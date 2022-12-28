@@ -3448,7 +3448,7 @@ def delete_feedback():
 @app.route('/Place')
 @login_required
 def Place_Page():
-    return render_template('Place.html')
+    return render_template('benefits.html')
 @app.route('/')
 @app.route('/index')
 def index_page():
@@ -3461,9 +3461,9 @@ def warranty_page():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error404.html'), 404
-@app.route('/warranty_customer')
-def warranty_customer():
-    return render_template('warranty2.html')
+@app.route('/legal')
+def legal():
+    return render_template('legal.html')
 @app.route('/contact')
 def contact_us():
     return render_template('contact.html')
