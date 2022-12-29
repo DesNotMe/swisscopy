@@ -105,11 +105,31 @@
 <br>
 <center><h2>This is what we found:</h2></center>
 <!-- ========================= SECTION CONTENT END// ========================= -->
-
+<style>
+    .glassmorphism-btn {
+        background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), 
+                    0px 15px 20px rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        color:black;
+      }
+    </style>
 <!-- ========================= WEBSITE MAIN // ========================= -->
         <form action="{{ url_for('retrieve_items') }}" method="GET">
             <button type="submit" class="btn btn-primary btn-lg btn-block">Retrieve Items</button>
+            
         </form>
+<br>
+        <div class="filter">
+            <a href="http://127.0.0.1:5000/markets?search=Umbrella" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Umbrella</a>
+            <a href="http://127.0.0.1:5000/markets?search=Chair" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Chair</a>
+            <a href="http://127.0.0.1:5000/markets?search=Quad" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Quad</a>
+            <a href="http://127.0.0.1:5000/markets?search=Standard" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Satndard</a>
+            <a href="http://127.0.0.1:5000/markets?search=MP3" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Handle with MP3</a>
+            <a href="http://127.0.0.1:5000/markets?search=Ergo" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Sticks with ergonomic handle</a>
+            <a href="http://127.0.0.1:5000/markets?search=Essential" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Essential the basics</a>
+            
+        </div>
     {% if items|length != 0 %}
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -353,7 +373,7 @@
 <br>
 <br>
 <br>
-<div class="container mt-5"  style="padding:15px;">
+<div class="container mt-5 col-md-5"  style="padding:15px;">
     <h1>Recommendations</h1>
     <p>At our company, we pride ourselves on offering high-quality walking sticks that meet the needs and preferences of our customers. Here are some of our top recommendations:</p>
     <div class="row mt-5"  style="display:flex;justify-content:space-around">
