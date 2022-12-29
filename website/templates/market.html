@@ -153,12 +153,12 @@
                                 {% if items[i].get_id() not in wish_items %}
                                     <form action="{{ url_for('wish') }}" method="POST" style="margin-top: 15px;">
                                         <input id="uuid" name="uuid" type="hidden" value="{{items[i].get_id()}}">
-                                        <button class="btn btn-outline btn-danger" type="submit" ><i class="far fa-heart"></i></button>
+                                        <button id="addwish" class="btn btn-outline btn-danger" type="submit" ><i class="far fa-heart"></i></button>
                                     </form>
                                 {% else %}
                                     <form action="{{ url_for('delete_wish') }}" method="POST" style="margin-top: 15px;">
                                         <input id="uuid" name="uuid" type="hidden" value="{{items[i].get_id()}}">
-                                        <button class="btn btn-outline btn-danger" type="submit" ><i class="fas fa-heart"></i></button>
+                                        <button id="removewish" class="btn btn-outline btn-danger" type="submit" ><i class="fas fa-heart"></i></button>
                                     </form>
                                 {% endif %}
                                 {% else %}
@@ -253,7 +253,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img class="card-img-top" style="max-height:300px" src="{{url_for('get_img' , id = items[i].get_image())}}" alt="Item Image" />
+                <img class="card-img-top" style="max-height:300px padding:20px" src="{{url_for('get_img' , id = items[i].get_image())}}" alt="Item Image" />
                 <hr>
                 <p>Barcode: {{items[i].get_id()}}</p>
                 <p>Name: {{items[i].get_name()}}</p>
@@ -267,7 +267,7 @@
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 
                     </div>
-                
+                    <br><br><br><br><br><br>
             </div>
 
         </div>
@@ -289,6 +289,7 @@
                 <div class="modal-body">
                     <img class="card-img-top" style="max-height:300px" src="{{url_for('get_img' , id = items[i].get_image())}}" alt="Item Image" />
                     <hr>
+                    <h2>{{items[i].get_name()}}</h2>
                     <p>Barcode: {{items[i].get_id()}}</p>
                     <p>Name: {{items[i].get_name()}}</p>
                     <p>Description: {{items[i].get_description()}}</p>
@@ -296,9 +297,11 @@
                     <p>Items in Stock: {{items[i].get_quantity()}}</p>
                     <p>Owner: {{items[i].get_owner()}}</p>
                     <hr>
-
+                    <a href="http://127.0.0.1:5000/markets?search=d"class="btn btn-success" type="submit">See something similar?</a><br>
                     {{ purchase_form.quantity.label() }}
                     {{ purchase_form.quantity(class='form-control form-control-user', placeholder='Enter Quantity') }}
+                    
+                    <br><br><br>
 
                   </div>
 
@@ -353,7 +356,7 @@
 <br>
 <br>
 <br>
-<div class="container mt-5"  style="padding:15px;">
+<div class="container mt-5 col-md-6"  style="padding:15px;">
     <h1>Recommendations</h1>
     <p>At our company, we pride ourselves on offering high-quality walking sticks that meet the needs and preferences of our customers. Here are some of our top recommendations:</p>
     <div class="row mt-5"  style="display:flex;justify-content:space-around">
