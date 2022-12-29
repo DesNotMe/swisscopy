@@ -133,6 +133,7 @@
                             Quantity: {{items[i].get_quantity()}} -->
                             <br>
                             Quantity: {{items[i].get_quantity()}}
+                            
 
                         </div>
                     </div>
@@ -262,9 +263,11 @@
                 <p>Owner: {{items[i].get_owner()}}</p>
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a href="{{ url_for('Place_Page') }}" class="btn">More Info</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 
-                </div>
+                    </div>
+                
             </div>
 
         </div>
