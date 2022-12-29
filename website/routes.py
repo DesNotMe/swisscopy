@@ -3481,6 +3481,7 @@ def payment_page():
 @login_required
 def thankyou_page():
     return render_template('thank.html')
+
 @app.route('/deals')
 @login_required
 def deals_page():
