@@ -3470,3 +3470,17 @@ def contact_us():
 @app.route('/service')
 def service_help():
     return render_template('service.html')
+
+#for dexter
+@app.route('/retail')
+@login_required
+def retailer_profile():
+    return render_template('retail.html')
+@app.route('/location')
+@login_required
+def location():
+    return render_template('retailerlocation.html')
+@app.route('/locationedit')
+@login_required
+def location_edit():
+    return render_template('retailereditor.html')

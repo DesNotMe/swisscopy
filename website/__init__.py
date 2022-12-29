@@ -32,6 +32,8 @@ def admin_user():
         if not User.query.filter_by(admin = admin.id).first() and not User.query.filter_by(email_address = admin.email_address).first() and not User.query.filter_by(username = admin.username).first():
             db.session.add(admin)
             db.session.commit()
+            
+            #dexter the admin thing is here
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'index_page'
