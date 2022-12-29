@@ -3470,6 +3470,9 @@ def contact_us():
 @app.route('/service')
 def service_help():
     return render_template('service.html')
+@app.route('/articles')
+def articles():
+    return render_template('articles.html')
 
 #for dexter
 @app.route('/retail')
