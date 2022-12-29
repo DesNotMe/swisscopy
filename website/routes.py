@@ -1799,7 +1799,7 @@ def Purchase_Item():
                 flash(f"Insufficient funds to purchase Items", category='danger')
                 return redirect(url_for('Shopping_Cart'))
 
-    return redirect(url_for('market_page'))
+    return redirect(url_for('payment_page'))
 
 
 @app.route('/AddToCart', methods=['POST', 'GET'])
@@ -3473,6 +3473,18 @@ def service_help():
 @app.route('/articles')
 def articles():
     return render_template('articles.html')
+@app.route('/payment')
+@login_required
+def payment_page():
+    return render_template('payment.html')
+@app.route('/thankyou')
+@login_required
+def thankyou_page():
+    return render_template('thank.html')
+@app.route('/deals')
+@login_required
+def deals_page():
+    return render_template('deals.html')
 
 #for dexter
 @app.route('/retail')
