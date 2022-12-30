@@ -105,11 +105,31 @@
 <br>
 <center><h2>This is what we found:</h2></center>
 <!-- ========================= SECTION CONTENT END// ========================= -->
-
+<style>
+    .glassmorphism-btn {
+        background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), 
+                    0px 15px 20px rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        color:black;
+      }
+    </style>
 <!-- ========================= WEBSITE MAIN // ========================= -->
         <form action="{{ url_for('retrieve_items') }}" method="GET">
             <button type="submit" class="btn btn-primary btn-lg btn-block">Retrieve Items</button>
+            
         </form>
+<br>
+        <div class="filter">
+            <a href="http://127.0.0.1:5000/markets?search=Umbrella" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Umbrella</a>
+            <a href="http://127.0.0.1:5000/markets?search=Chair" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Chair</a>
+            <a href="http://127.0.0.1:5000/markets?search=Quad" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Quad</a>
+            <a href="http://127.0.0.1:5000/markets?search=Standard" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Satndard</a>
+            <a href="http://127.0.0.1:5000/markets?search=MP3" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Handle with MP3</a>
+            <a href="http://127.0.0.1:5000/markets?search=Ergo" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Sticks with ergonomic handle</a>
+            <a href="http://127.0.0.1:5000/markets?search=Essential" type="button" class="btn btn-outline-secondary btn-md glassmorphism-btn">Essential the basics</a>
+            
+        </div>
     {% if items|length != 0 %}
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -133,6 +153,7 @@
                             Quantity: {{items[i].get_quantity()}} -->
                             <br>
                             Quantity: {{items[i].get_quantity()}}
+                            
 
                         </div>
                     </div>
@@ -200,12 +221,12 @@
                                 <td><button class="btn btn-outline btn-warning">Edit Product</button></td>
                             </form>
                             <br>
-                            <td><button class="btn btn-outline btn-block">Your Products</button></td>
+                            <td><button class="btn btn-outline mt-auto btn-success" data-toggle="modal" data-target="#Modal-Purchase--{{items[i].get_id()}}" {% if items[i].get_quantity() == 0 %} disabled {% endif %}>{% if items[i].get_quantity() == 0 %} <p style="background-color:red;">Out of stock🚫 </p>{% elif items[i].get_quantity() <= 10 %} <p style="background-color:#b26a00; border-radius:5px; padding:2px">Low on stock⚠️</p> {% else %} Add to cart {% endif %}</button></td>
                             {% elif items[i].get_id() in DisabledProducts%}
                             <td><button class="btn btn-outline btn-danger" disabled>Item Disabled</button></td>
                             {% else %}
 							<td>
-                                <button class="btn btn-outline mt-auto btn-success" data-toggle="modal" data-target="#Modal-Purchase--{{items[i].get_id()}}" {% if items[i].get_quantity() == 0 %} disabled {% endif %}>{% if items[i].get_quantity() == 0 %} Out of stock {% else %} Add to cart {% endif %}</button>
+                                <button class="btn btn-outline mt-auto btn-success" data-toggle="modal" data-target="#Modal-Purchase--{{items[i].get_id()}}" {% if items[i].get_quantity() == 0 %} disabled {% endif %}>{% if items[i].get_quantity() == 0 %} <p style="background-color:red;">Out of stock🚫 </p>{% elif items[i].get_quantity() <= 10 %} <p style="background-color:#b26a00; border-radius:5px; padding:2px">Low on stock⚠️</p> {% else %} Add to cart {% endif %}</button>
                                 <!-- Wishlist -->
                                 {% if items[i].get_owner() != current_user.username %}
                                 {% if items[i].get_id() not in wish_items %}
@@ -262,9 +283,11 @@
                 <p>Owner: {{items[i].get_owner()}}</p>
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a href="{{ url_for('Place_Page') }}" class="btn">More Info</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 
-                </div>
+                    </div>
+                
             </div>
 
         </div>
@@ -349,5 +372,17 @@
 <br>
 <br>
 <br>
-<br>      
+<br>
+<div class="container mt-5 col-md-5"  style="padding:15px;">
+    <h1>Recommendations</h1>
+    <p>At our company, we pride ourselves on offering high-quality walking sticks that meet the needs and preferences of our customers. Here are some of our top recommendations:</p>
+    <div class="row mt-5"  style="display:flex;justify-content:space-around">
+      <div class="col-sm-6">
+        <div class="neumorphic-card">
+          <h2>Umbrella</h2>
+          <img src="https://cdn.shopify.com/s/files/1/1861/4635/products/WebWS13_Tag2_300x300.jpg?v=1626935683" alt="Adjustable Walking Stick" class="neumorphic-img">
+          <p>Our adjustable walking stick is perfect for individuals who need a stick that can be easily customized to their height and comfort level. It features a sturdy aluminum construction and a non-slip rubber tip, as well as an adjustable handle and shaft that can be easily locked into place. </p>
+          <a href="http://127.0.0.1:5000/markets?search=b" class="btn btn-primary">Learn more</a>
+        </div>
+    </div></div></div>      
 {% endblock %}
