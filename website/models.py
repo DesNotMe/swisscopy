@@ -156,7 +156,10 @@ class RetailAccount(db.Model):
 
 class Retail:
     count_id = 0
-    def __init__(self, location, postal_code, unit_number, address, office_no, email_address, date_registered):
+    def __init__(self, id, location, postal_code, unit_number, address, office_no, email_address, date_registered):
+        Retail.count_id += 1
+        self.__id = id
+        self.__count_id = Retail.count_id
         self.__location = location
         self.__postal_code = postal_code
         self.__unit_number = unit_number
@@ -164,6 +167,12 @@ class Retail:
         self.__office_no = office_no
         self.__email_address = email_address
         self.__date_registered = date_registered
+
+    def get_retailer_id(self):
+        return self.__id
+
+    def get_count_id(self):
+        return self.__count_id 
 
     def get_location(self):
         return self.__location
@@ -185,6 +194,9 @@ class Retail:
 
     def get_date_registered(self):
         return self.__date_registered
+
+    def set_retailer_id(self, id):
+        self.__id = id
 
     def set_location(self, location):
         self.__location = location
@@ -497,7 +509,6 @@ class SalesLogs(Logs):
 
 # Ming Wei
 class Suppliers:
-
     def __init__(self, id, name, remarks, email, phone_number):
         self.__id = id
         self.__name = name

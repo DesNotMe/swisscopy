@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Library Loan System - Retrieve Retailers{% endblock %}
+
+{% block content %}
+<section class="section-content padding-y">
+<div class="container px-4 px-lg-5 mt-5">
+  
+
+  <h1 class="display-4">Retrieve Retailers</h1>
+  <div>
+    {% if count == 0 %}
+    <p>There are no retailers.</p>
+    {% elif count == 1 %}
+    <p>There is 1 retailer.</p>
+    {% else %}
+    <p>There are {{ count }} retailers.</p>
+    {% endif %}
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Count ID</th>
+          <th>Location</th>
+          <th>Postal Code</th>
+          <th>Address</th>
+          <th>Email address</th>
+          <th>Office number</th>
+          <th>Date registered</th>
+          <th><a href="/AddItemForm" class="btn btn-primary">Add a new retailer</a></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for retail in retailers_list %}
+      <tr>
+          <td>{{ retail.get_count_id() }}</td>
+          <td>{{ retail.get_location() }}</td>
+          <td>{{ retail.get_postal_code() }}</td>
+          <td>{{ retail.get_address() }}</td>
+          <td>{{ retail.get_email_address() }}</td>
+          <td>{{ retail.get_office_no() }}</td>
+          <td>{{ retail.get_date_registered() }}</td>
+          <td><a href="/updateRetail/{{ retail.get_retailer_id() }}" class="btn btn-warning">Update</a></td>
+          <td>
+            <form action="{{url_for('retailer_delete', id=retail.get_retailer_id())}}" method="POST">
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{retail.get_retailer_id()}}">
+    Delete
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal" id="myModal_{{ retail.get_retailer_id() }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Confirmation</h4>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          Are you sure you want to delete?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <input type="submit" value="Delete" class="btn btn-danger">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+            </form>
+          </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+</div>
+{% endblock %}

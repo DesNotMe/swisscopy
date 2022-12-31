@@ -1,12 +1,8 @@
 import os
 from website import app, bcrypt
 from flask import render_template, request, flash, redirect, url_for, jsonify, Response
-from website.models import User, Partners, Notes, Tickets, Tickets_Response, Item, Booking, Feedback, Events, Logs, \
-    TransactionLogs, SalesLogs, Img
-from website.forms import RegisterForm, LoginForm, DepositForm, TransferFunds, CreatePartnerForm, UpdatePartnerForm, \
-    Add_Notes, Update_Notes, Update_User, Update_Username, Update_Email, Update_Gender, Update_Password, Ticket_Form, \
-    Ticket_Reply_Form, UpdateSupplierForm, Add_Item_Form, Purchase_Form, Wish_Form, Update_User_Admin, Booking_form, \
-    Restock_Item_Form, Add_To_Cart_Form, Feedback_form, Add_Event, Edit_Cart, password_reset
+from website.models import *
+from website.forms import *
 from website import db
 from flask_login import login_user, logout_user, login_required, current_user
 from website import admin_user
@@ -3488,6 +3484,145 @@ def deals_page():
     return render_template('deals.html')
 
 #for dexter
+@app.route("/retail/registerRetail", methods=['GET', 'POST'])
+@login_required
+def register_retail():
+    from website.models import Retail
+    from website.forms import RegisterRetailerForm
+
+    form = RegisterRetailerForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            register_retailer_form = RegisterRetailerForm()
+
+            retailer_dict = {}
+            retailer_db = shelve.open('website/databases/retailer/retailer.db', 'c')
+            retailer_id_db = shelve.open('website/databases/retailer/retailer_id_db', 'c')
+            id = 0
+
+            try:
+                try:
+                    # if company data in database,
+                    retailer_dict = retailer_db['Retailers']
+                except Exception as e:
+                    print(f"An unknown error, \"{e}\" has occured!")
+
+                if "ID" in retailer_id_db:
+                    id = retailer_id_db["ID"]
+
+                else:
+                    retailer_id_db['ID'] = id
+
+                retailer = Retail(id, register_retailer_form.shop.data, register_retailer_form.postal_code.data,
+                                      register_retailer_form.unit_number.data, register_retailer_form.address.data,
+                                      register_retailer_form.office_no.data, register_retailer_form.email_address.data,
+                                      register_retailer_form.date_registered.data)
+
+                id += 1
+                retailer.set_retailer_id(id)
+                retailer_dict[retailer.get_retailer_id()] = retailer
+                retailer_db['Retailers'] = retailer_dict
+                retailer_id_db['ID'] = id
+                retailer_db.close()
+
+            except Exception as e:
+                flash(f"{e} error occurred!", category='danger')
+            retailer_db.close()
+
+        return redirect(url_for('retrieve_retailers'))
+    return render_template("registerRetail.html", form=form)
+
+@app.route('/retailersedit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_retailer(id):
+    form = UpdateRetailerForm()
+
+    if request.method == "POST" and form.validate_on_submit():
+
+        retailer_dict = {}
+        retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+        retailer_dict = retailer_db["Retailers"]
+
+        for key in retailer_dict:
+            print(retailer_dict[key])
+
+        retailer = retailer_dict.get(id)
+        retailer.set_shop(form.shop.data)
+        retailer.set_email(form.email_address.data)
+        retailer.set_postal_code(form.postal_code.data)
+        retailer.set_office_number(form.office_no.data)
+        retailer.set_unit_number(form.unit_number.data)
+        retailer.set_address(form.address.data)
+        retailer.set_date_registered(form.date_registered.data)
+
+        retailer_db['Retailers'] = retailer_dict
+        retailer_db.close()
+
+        return redirect(url_for('retrieve_retailers'))
+    else:
+        retailer_dict = {}
+        retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
+        retailer_dict = retailer_db['Retailers']
+        retailer_db.close()
+        retailer = retailer_dict.get(id)
+        form.shop.data = retailer.get_shop()
+        form.postal_code.data = retailer.get_postal_code()
+        form.unit_number.data = retailer.get_unit_number()
+        form.address.data = retailer.get_address()
+        form.date_registered.data = retailer.get_date_registered()
+        form.email_address.data = retailer.get_email_address()
+        form.office_no.data = retailer.get_office_no()
+
+        return render_template('updateRetailer.html', form=form)
+
+
+@app.route('/retailers/delete/<int:id>', methods=['POST'])
+@login_required
+def retailer_delete(id):
+    try:
+        retailer_dict = {}
+        retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+        retailer_dict = retailer_db['Retailers']
+
+        current_id = retailer_dict.get(id)
+        retailer_dict.pop(id)
+        retailer_db['Retailers'] = retailer_dict
+
+        if current_id not in retailer_db['Retailers']:
+            flash("Deletion Successful!", category="success")
+        else:
+            flash("Deletion unsuccessful!", category='danger')
+
+        retailer_db.close()
+
+    except IOError:
+        flash("Something went wrong with the database!", category='danger')
+
+    # except Exception as e:
+    #     flash(f"{e} went wrongly!")
+
+    return redirect(url_for('retrieve_retailers'))
+
+
+
+@app.route('/retail_database')
+@login_required
+def retrieve_retailers():
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
+    retailer_dict = retailer_db['Retailers']
+    print(retailer_dict)
+
+    retailer_db.close()
+
+    retailers_list = []
+    for key in retailer_dict:
+        retail = retailer_dict.get(key)
+        retailers_list.append(retail)
+
+    return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
+
 @app.route('/retail')
 @login_required
 def retailer_profile():
