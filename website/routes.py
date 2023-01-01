@@ -3534,7 +3534,7 @@ def register_retail():
         return redirect(url_for('retrieve_retailers'))
     return render_template("registerRetail.html", form=form)
 
-@app.route('/retailersedit/<int:id>', methods=['GET', 'POST'])
+@app.route('/retail/retailersedit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_retailer(id):
     form = UpdateRetailerForm()
@@ -3578,7 +3578,7 @@ def update_retailer(id):
         return render_template('updateRetailer.html', form=form)
 
 
-@app.route('/retailers/delete/<int:id>', methods=['POST'])
+@app.route('/retail/delete/<int:id>', methods=['POST'])
 @login_required
 def retailer_delete(id):
     try:
@@ -3607,7 +3607,7 @@ def retailer_delete(id):
 
 
 
-@app.route('/retail_database')
+@app.route('/retail/retail_database')
 @login_required
 def retrieve_retailers():
     retailer_dict = {}
@@ -3627,12 +3627,526 @@ def retrieve_retailers():
 @app.route('/retail')
 @login_required
 def retailer_profile():
-    return render_template('retail.html')
+    userID = User.query.filter_by(id=current_user.id).first()
+    admin_user()
+    return render_template('retail.html', user=userID)
+
 @app.route('/location')
 @login_required
 def location():
     return render_template('retailerlocation.html')
+
 @app.route('/locationedit')
 @login_required
 def location_edit():
     return render_template('retailereditor.html')
+
+@app.route('/AddItemForm', methods=['POST', 'GET'])
+@login_required
+def Add_Item():
+    add_item_form = Add_Item_Form()
+    your_products_dict = {}
+    Items_Dict = {}
+    unique_id = uuid4()
+
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'c')
+        Your_Products_Database = shelve.open('website/databases/products/products.db', 'c')
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+        if str(current_user.id) in Your_Products_Database:
+            your_products_dict = Your_Products_Database[str(current_user.id)]
+        else:
+            Your_Products_Database[str(current_user.id)] = your_products_dict
+
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    else:
+        if add_item_form.validate_on_submit() and request.method == 'POST':
+            pic = request.files['pic']
+
+            if not pic:
+                flash("Please Insert an Image before adding a product.", category='danger')
+                return redirect(url_for('Add_Item'))
+
+            filename = secure_filename(pic.filename)
+            mimetype = pic.mimetype
+            while True:
+                unique_id = uuid4()
+                if str(unique_id) not in Items_Dict:
+                    img = Img(img=pic.read(), mimetype=mimetype, name=filename)
+                    db.session.add(img)
+                    db.session.commit()
+                    item = Item(id=str(unique_id),
+                                name=add_item_form.name.data,
+                                quantity=add_item_form.quantity.data,
+                                description=add_item_form.description.data,
+                                price=add_item_form.price.data,
+                                owner=current_user.username,
+                                owner_id=current_user.id,
+                                image=img.id
+                                )
+
+                    Items_Dict[str(unique_id)] = item
+                    your_products_dict[str(unique_id)] = item
+                    Item_Database['ItemInfo'] = Items_Dict
+                    Your_Products_Database[str(current_user.id)] = your_products_dict
+                    flash('Item Added Successfully', category='success')
+                    print('Item added')
+                    Item_Database.close()
+                    Your_Products_Database.close()
+                    break
+                else:
+                    continue
+
+    return render_template('AddItem.html', add_item_form=add_item_form), 200
+
+@app.route("/retrieveItems")
+def retrieve_items():
+    Items_Dict = {}
+    Item_Database = shelve.open('website/databases/items/items.db', 'r')
+    Items_Dict = Item_Database['ItemInfo']
+    print(Items_Dict)
+
+    Item_Database.close()
+
+    items_list = []
+    for key in Items_Dict:
+        item = Items_Dict.get(key)
+        items_list.append(item)
+
+    return render_template('retrieveItems.html', count=len(items_list), items_list=items_list)
+
+@app.route('/updateItem/<id>', methods=['GET', 'POST'])
+def update_item(id):
+    update_item_form = Add_Item_Form()
+    Items_Dict = {}
+
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'w')
+        #Your_Products_Database = shelve.open('website/databases/products/products.db', 'c')
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+        
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    else:
+        if request.method == 'POST' and update_item_form.validate():
+            item = Items_Dict.get(id)
+            item.set_name(update_item_form.name.data)
+            item.set_quantity(update_item_form.quantity.data)
+            item.set_description(update_item_form.description.data)
+            item.set_price(update_item_form.price.data)
+            Item_Database['ItemInfo'] = Items_Dict
+            Item_Database.close()
+     
+            return redirect(url_for('retrieve_items'))
+        else:
+            Item_Database = shelve.open('website/databases/items/items.db', 'r')
+            Items_dict = Item_Database['ItemInfo']
+            Item_Database.close()
+
+            item = Items_dict.get(id)
+            update_item_form.name.data = item.get_name()
+            update_item_form.quantity.data = item.get_quantity()
+            update_item_form.description.data = item.get_description()
+            update_item_form.price.data = item.get_price()
+
+        return render_template('UpdateItem.html', update_item_form=update_item_form), 200
+
+
+
+@app.route('/deleteItem/<id>', methods=['POST'])
+def delete_item(id):
+    Item_dict = {}
+    Item_Database = shelve.open('website/databases/items/items.db', 'w')
+    Items_Dict = Item_Database['ItemInfo']
+
+    Items_Dict.pop(id)
+
+    Item_Database["ItemInfo"] = Items_Dict
+    Item_Database.close()
+
+    return redirect(url_for('retrieve_items'))
+
+
+'''
+@app.route('/PurchaseItem', methods=['POST', 'GET'])
+@login_required
+def Purchase_Item():
+    purchase_item_form = Purchase_Form()
+    Items_Dict = {}
+    Owned_Items_Dict = {}
+    Cart_Dict = {}
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'c')
+        Owned_Items_Database = shelve.open('website/databases/Owned_Items/ownedItems.db', 'c')
+        Shopping_Cart_Database = shelve.open('website/databases/shoppingcart/cart.db', 'c')
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+
+        if str(current_user.id) in Owned_Items_Database:
+            Owned_Items_Dict = Owned_Items_Database[str(current_user.id)]
+            print(Owned_Items_Database[str(current_user.id)])
+        else:
+            Owned_Items_Database[str(current_user.id)] = Owned_Items_Dict
+
+        if str(current_user.id) in Shopping_Cart_Database:
+            Cart_Dict = Shopping_Cart_Database[str(current_user.id)]
+        else:
+            Shopping_Cart_Database[str(current_user.id)] = Cart_Dict
+
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    # Logs
+    logs_dict = {}
+    transaction_logs_dict = {}
+    log_count = 0
+    transaction_log_count = 0
+
+    # Sales Dict
+    sales_dict = {}
+    sales_log_count = 0
+
+    try:
+        LogsDatabase = shelve.open('website/databases/Logs/logs.db', 'c')
+        LogsCounter = shelve.open('website/databases/Logs/logscount.db', 'c')
+        TransactionLogsDatabase = shelve.open('website/databases/TransactionLogs/transactionlogs.db', 'c')
+        TransactionCounter = shelve.open('website/databases/TransactionLogs/transactionlogscount.db', 'c')
+        SalesLogDatabase = shelve.open('website/databases/SalesLogs/sales.db', 'c')
+        SalesCounter = shelve.open('website/databases/SalesLogs/salescount.db', 'c')
+        if str(current_user.id) in LogsDatabase:
+            logs_dict = LogsDatabase[str(current_user.id)]
+        else:
+            LogsDatabase[str(current_user.id)] = logs_dict
+
+        if str(current_user.id) in LogsCounter:
+            log_count = LogsCounter[str(current_user.id)]
+        else:
+            LogsCounter[str(current_user.id)] = log_count
+
+        if str(current_user.id) in TransactionLogsDatabase:
+            transaction_logs_dict = TransactionLogsDatabase[str(current_user.id)]
+        else:
+            TransactionLogsDatabase[str(current_user.id)] = transaction_logs_dict
+
+        if str(current_user.id) in TransactionCounter:
+            transaction_log_count = TransactionCounter[str(current_user.id)]
+        else:
+            TransactionCounter[str(current_user.id)] = transaction_log_count
+
+    except IOError:
+        print("An Error Has Occurred Trying to Read The Database")
+    except Exception as e:
+        print(f"An Unknown Error has occurred, {e}")
+
+
+    else:
+        UserID = User.query.filter_by(id=current_user.id).first()
+        print("Cart Items")
+        print(Cart_Dict)
+        total = 0
+        for i in Cart_Dict:
+            total += Cart_Dict[i].get_total_cost()
+
+        # UserID_Owner = User.query.filter_by(id=Items_Dict[str(request.form.get('uuid'))].get_owner_id()).first()
+        if request.method == 'POST':
+            if total <= current_user.budget:
+                # Minus Balance of User
+                current_user.budget -= total
+                # Increase Current User Spending
+                current_user.spending += total
+                for i in Cart_Dict:
+                    UserID_Owner = User.query.filter_by(id=Cart_Dict[i].get_owner_id()).first()
+                    # Adds Balance of Item Owner
+                    UserID_Owner.budget += Cart_Dict[i].get_total_cost()
+                    # Adds Profit to Item Owner
+                    UserID_Owner.profits += Cart_Dict[i].get_total_cost()
+
+                UserID.shoppingCartCount = 0
+                db.session.commit()
+                Item_Database['ItemInfo'] = Items_Dict
+                # Set Extra Purchased Item Attributes
+                for i in Cart_Dict:
+                    Cart_Dict[i].set_date_purchase(datetime.now().strftime("%d/%m/%Y"))
+                    Cart_Item = Cart_Dict[i]
+                    print(Cart_Item)
+                    Owned_Items_Dict[str(uuid4())] = Cart_Item
+                Owned_Items_Database[str(current_user.id)] = Owned_Items_Dict
+                print("Owned items")
+                print(Owned_Items_Dict)
+                print(Owned_Items_Database[str(current_user.id)])
+                flash(f"Purchased Made Successfully", category='success')
+
+                Item_Database.close()
+                Owned_Items_Database.close()
+
+                sales_log_count += 1
+                transaction_log_count += 1
+                log_count += 1
+                # Tracking Log & Transaction Section
+                log = Logs(
+                    id=str(log_count),
+                    log_description=f'You Purchased ${total:.2f} worth of items',
+                    date_recorded=datetime.now().strftime("%d/%m/%y"),
+                    time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                )
+                transaction_log = TransactionLogs(
+                    id=str(transaction_log_count),
+                    log_description=f'You Purchased ${total:.2f} worth of items',
+                    transaction=(total) * -1,
+                    date_recorded=datetime.now().strftime("%d/%m/%y"),
+                    time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                )
+                logs_dict[str(log_count)] = log
+                transaction_logs_dict[str(transaction_log_count)] = transaction_log
+                LogsDatabase[str(current_user.id)] = logs_dict
+                LogsCounter[str(current_user.id)] = log_count
+                TransactionLogsDatabase[str(current_user.id)] = transaction_logs_dict
+                TransactionCounter[str(current_user.id)] = transaction_log_count
+                # Seller Logs Section
+                for i in Cart_Dict:
+                    owner_id = Cart_Dict[i].get_owner_id()
+                    # Seller Dict
+                    seller_logs_dict = {}
+                    seller_transactions_logs_dict = {}
+                    seller_sales_logs_dict = {}
+
+                    seller_logs_count = 0
+                    seller_transaction_logs_count = 0
+                    seller_sales_logs_count = 0
+                    try:
+                        if str(owner_id) in LogsDatabase:
+                            seller_logs_dict = LogsDatabase[str(owner_id)]
+                        else:
+                            LogsDatabase[str(owner_id)] = seller_logs_dict
+
+                        if str(owner_id) in LogsCounter:
+                            seller_logs_count = LogsCounter[str(owner_id)]
+                        else:
+                            LogsCounter[str(owner_id)] = seller_logs_count
+
+                        if str(owner_id) in TransactionLogsDatabase:
+                            seller_transactions_logs_dict = TransactionLogsDatabase[str(owner_id)]
+                        else:
+                            TransactionLogsDatabase[str(owner_id)] = seller_transactions_logs_dict
+
+                        if str(owner_id) in TransactionCounter:
+                            seller_transaction_logs_count = TransactionCounter[str(owner_id)]
+                        else:
+                            TransactionCounter[str(owner_id)] = seller_transaction_logs_count
+
+                        if str(owner_id) in SalesLogDatabase:
+                            seller_sales_logs_dict = SalesLogDatabase[str(owner_id)]
+                        else:
+                            SalesLogDatabase[str(owner_id)] = seller_sales_logs_dict
+
+                        if str(owner_id) in SalesCounter:
+                            seller_sales_logs_count = SalesCounter[str(owner_id)]
+                        else:
+                            SalesCounter[str(owner_id)] = seller_sales_logs_count
+
+                    except IOError:
+                        print("An Error Has Occurred Trying to Read The Database")
+
+                    except Exception as e:
+                        print(f"An Unknown Error has occurred, {e}")
+                    print('error')
+                    print(seller_transaction_logs_count)
+                    seller_logs_count += 1
+                    seller_transaction_logs_count += 1
+                    seller_sales_logs_count += 1
+
+                    seller_log = Logs(
+                        id=str(seller_logs_count),
+                        log_description=f'You received ${Cart_Dict[i].get_total_cost():.2f} from your sales',
+                        date_recorded=datetime.now().strftime("%d/%m/%y"),
+                        time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                    )
+                    transaction_log_seller = TransactionLogs(
+                        id=str(seller_transaction_logs_count),
+                        log_description=f'You received ${Cart_Dict[i].get_total_cost():.2f} from your sales',
+                        transaction=Cart_Dict[i].get_total_cost(),
+                        date_recorded=datetime.now().strftime("%d/%m/%y"),
+                        time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                    )
+                    sale_log_seller = SalesLogs(
+                        id=str(seller_sales_logs_count),
+                        log_description=f'You received ${Cart_Dict[i].get_total_cost():.2f} from your sales',
+                        transaction=Cart_Dict[i].get_total_cost(),
+                        date_recorded=datetime.now().strftime("%d/%m/%y"),
+                        time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                    )
+                    # Update Seller Logs Dict
+                    seller_logs_dict[str(seller_logs_count)] = seller_log
+                    LogsCounter[str(owner_id)] = seller_logs_count
+
+                    seller_transactions_logs_dict[str(seller_transaction_logs_count)] = transaction_log_seller
+                    TransactionCounter[str(owner_id)] = seller_transaction_logs_count
+
+                    seller_sales_logs_dict[str(seller_sales_logs_count)] = sale_log_seller
+                    SalesCounter[str(owner_id)] = seller_sales_logs_count
+
+                    # Update Seller Logs Database
+                    LogsDatabase[str(owner_id)] = seller_logs_dict
+                    TransactionLogsDatabase[str(owner_id)] = seller_transactions_logs_dict
+                    SalesLogDatabase[str(owner_id)] = seller_sales_logs_dict
+
+                Cart_Dict.clear()
+                Shopping_Cart_Database[str(current_user.id)] = Cart_Dict
+                Shopping_Cart_Database.close()
+                LogsDatabase.close()
+                TransactionLogsDatabase.close()
+                SalesLogDatabase.close()
+
+                LogsCounter.close()
+                TransactionCounter.close()
+                SalesCounter.close()
+            else:
+                flash(f"Insufficient funds to purchase Items", category='danger')
+                return redirect(url_for('Shopping_Cart'))
+
+    return redirect(url_for('payment_page'))
+
+
+@app.route('/AddToCart', methods=['POST', 'GET'])
+@login_required
+def Add_To_Cart():
+    # uuid is Item ID
+    # uuid2 is Seller ID
+    add_to_cart_form = Add_To_Cart_Form()
+    Items_Dict = {}
+    Cart_Dict = {}
+    Seller_Items_Dict = {}
+
+    # Logs Dictionary & Counters
+    logs_dict = {}
+    log_count = 0
+    try:
+        LogsDatabase = shelve.open('website/databases/Logs/logs.db', 'c')
+        LogsCounter = shelve.open('website/databases/Logs/logscount.db', 'c')
+        if str(current_user.id) in LogsDatabase:
+            logs_dict = LogsDatabase[str(current_user.id)]
+        else:
+            LogsDatabase[str(current_user.id)] = logs_dict
+
+        if str(current_user.id) in LogsCounter:
+            log_count = LogsCounter[str(current_user.id)]
+        else:
+            LogsCounter[str(current_user.id)] = log_count
+
+    except IOError:
+        print("An Error Has Occurred Trying to Read The Database")
+    except Exception as e:
+        print(f"An Unknown Error has occurred, {e}")
+
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'c')
+        Shopping_Cart_Database = shelve.open('website/databases/shoppingcart/cart.db', 'c')
+        Seller_Products_Database = shelve.open('website/databases/products/products.db', 'c')
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+
+        if str(current_user.id) in Shopping_Cart_Database:
+            Cart_Dict = Shopping_Cart_Database[str(current_user.id)]
+        else:
+            Shopping_Cart_Database[str(current_user.id)] = Cart_Dict
+
+        if str(request.form.get('uuid2')) in Seller_Products_Database:
+            Seller_Items_Dict = Seller_Products_Database[str(request.form.get('uuid2'))]
+        else:
+            Seller_Products_Database[str(request.form.get('uuid2'))] = Seller_Items_Dict
+
+
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    else:
+        print("Hello")
+        print(str(request.form.get('uuid2')))
+        print(str(request.form.get('uuid')))
+        print(str(current_user.id))
+        UserID = User.query.filter_by(id=current_user.id).first()
+        print(UserID)
+        if request.method == 'POST':
+            cart_item = Items_Dict[str(request.form.get('uuid'))]
+            print(cart_item.get_quantity())
+            print(add_to_cart_form.quantity.data)
+            print(cart_item)
+            print("Seller dictionary")
+            print(Seller_Items_Dict)
+            if add_to_cart_form.quantity.data != None:
+                if cart_item.get_quantity() > 0:
+                    if add_to_cart_form.quantity.data <= cart_item.get_quantity():
+                        total = cart_item.get_price() * add_to_cart_form.quantity.data
+                        item_quantity = Items_Dict[str(request.form.get('uuid'))].get_quantity()
+                        # seller_item_quantity = Seller_Items_Dict[str(request.form.get('uuid'))].get_quantity()
+                        # Minus Quantity of Item
+                        item_quantity -= add_to_cart_form.quantity.data
+                        Items_Dict[str(request.form.get('uuid'))].set_quantity(item_quantity)
+                        # Minus Quantity of Seller Item Database
+                        Seller_Items_Dict[str(request.form.get('uuid'))].set_quantity(item_quantity)
+                        Item_Database['ItemInfo'] = Items_Dict
+                        Seller_Products_Database[str(request.form.get('uuid2'))] = Seller_Items_Dict
+                        # Set Quantity Purchased Of Item Added to Cart
+                        cart_item.set_qty_purchased(add_to_cart_form.quantity.data)
+                        cart_item.set_total_cost(total)
+                        Cart_Dict[str(uuid4())] = cart_item
+                        print("Cart items")
+                        print(Cart_Dict)
+                        print(Shopping_Cart_Database[str(current_user.id)])
+                        Shopping_Cart_Database[str(current_user.id)] = Cart_Dict
+                        flash(f"{cart_item.get_name()} Added to Cart", category='success')
+                        Item_Database.close()
+                        Shopping_Cart_Database.close()
+                        UserID.shoppingCartCount += 1
+                        db.session.commit()
+                        # Tracking Log & Section
+                        log_count += 1
+                        log = Logs(
+                            id=str(log_count),
+                            log_description=f'{add_to_cart_form.quantity.data}x {cart_item.get_name()} was added to your cart',
+                            date_recorded=datetime.now().strftime("%d/%m/%y"),
+                            time_recorded=datetime.now().strftime("%I:%M:%S %p")
+                        )
+
+                        logs_dict[str(log_count)] = log
+                        # Logs Database
+                        LogsDatabase[str(current_user.id)] = logs_dict
+                        # Counters
+                        LogsCounter[str(current_user.id)] = log_count
+                        LogsDatabase.close()
+                        LogsCounter.close()
+
+
+                    else:
+                        flash(f"{cart_item.get_name()} does not have enough in stock", category='danger')
+                else:
+                    flash(f"{cart_item.get_name()} is out of stock", category='danger')
+            else:
+                flash(f"Please Enter a Valid Quantity", category='danger')
+    return redirect(url_for('market_page'))
+'''
