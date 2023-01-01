@@ -15,7 +15,7 @@
     <!-- Transfer Funds/ Deposit Page -->
     <div id="TransferModalContainer">
       <a href="{{ url_for('money_management') }}" class="TransferModalContainer__Button">
-        <h1 class="ContainerWord" id="TransferContainerWord">Transfer/ Deposit Funds</h1>
+        <h1 class="ContainerWord" id="TransferContainerWord">View profile</h1>
         <div class="InnerButtonContainer">
           <div class="TransferModalContainer__inner">
             <img class="img1" src="../static/img/transaction_icon.png" alt="Icon Goes here!">
@@ -37,6 +37,16 @@
       </a>
     </div>
     <br>
+    <div id="DashboardModalContainer">
+        <a href="{{ url_for('Feedbacks') }}" class="TransferModalContainer__Button">
+          <h1 class="ContainerWord" id="DashboardContainerWord">Chat with admin</h1>
+          <div class="InnerButtonContainer">
+            <div class="TransferModalContainer__inner">
+              <img class="img4" src="../static/img/Dashboard_Icon.png" alt="Icon Goes here!">
+            </div>
+          </div>
+        </a>
+      </div>
     
     <!-- Dashboard Page -->
     <div id="DashboardModalContainer">
@@ -53,11 +63,11 @@
     
     <!-- Profile Settings Page -->
     <div id="ProfileModalContainer">
-      <a href="{{ url_for('profile_page') }}" class="TransferModalContainer__Button">
-        <h1 class="ContainerWord" id="ProfileContainerWord">Your Profile</h1>
+      <a href="{{ url_for('Shopping_Cart') }}" class="TransferModalContainer__Button">
+        <h1 class="ContainerWord" id="ProfileContainerWord">View bulk cart</h1>
         <div class="InnerButtonContainer">
           <div class="TransferModalContainer__inner">
-            <img class="img3" src="../static/img/profile_icon.png" alt="Icon Goes here!">
+            <img class="img3" src="../static/img/person-transporting-box.webp" alt="Icon Goes here!">
           </div>
         </div>
       </a>
