@@ -2254,7 +2254,8 @@ def register_page():
     if form.validate_on_submit():
         user_to_create = User(username=form.username.data,
                               email_address=form.email_address.data,
-                              password=form.password1.data)
+                              password=form.password1.data,
+                              usertype=form.usertype.data)
         # 'password' = form.password1.data this is entering the hashed
         # version of the password. Check models.py,
         # @password.setter hashes the passwords
