@@ -81,6 +81,9 @@
   </div>
 </section>
 </div>
+
+
+<!--csv section-->
 <div class="container mt-5">
   <h1>CSV Viewer</h1>
   <div class="form-group">
@@ -89,6 +92,7 @@
   <div class="form-group">
     <button id="load-button" class="btn btn-primary">Load CSV</button>
     <button id="clear-button" class="btn btn-secondary" disabled>Clear</button>
+    <a id="download-button" class="btn btn-secondary" download disabled>Download</a>
   </div>
   <div id="output" class="table-responsive mt-5">
     <table class="table">
@@ -97,40 +101,63 @@
 </div>
 <script>
   const loadButton = document.getElementById('load-button');
-  const clearButton = document.getElementById('clear-button');
-  const csvFileInput = document.getElementById('csv-file');
-  const outputDiv = document.getElementById('output');
+const clearButton = document.getElementById('clear-button');
+const downloadButton = document.getElementById('download-button');
+const csvFileInput = document.getElementById('csv-file');
+const outputDiv = document.getElementById('output');
+const table = outputDiv.querySelector('table');
 
-  loadButton.addEventListener('click', () => {
-    // Read the contents of the CSV file
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      // Split the contents of the file into lines
-      const lines = event.target.result.split('\n');
-      // Iterate through the lines and create table rows
-      lines.forEach((line) => {
-        const cells = line.split(',');
-        const row = document.createElement('tr');
-        cells.forEach((cell) => {
-          const td = document.createElement('td');
-          td.textContent = cell;
-          row.appendChild(td);
-        });
-        outputDiv.appendChild(row);
-      });
-      // Enable the clear button
-      clearButton.disabled = false;
-    };
-    reader.readAsText(csvFileInput.files[0]);
+loadButton.addEventListener('click', () => {
+// Read the contents of the CSV file
+const reader = new FileReader();
+reader.onload = (event) => {
+  // Split the contents of the file into lines
+  const lines = event.target.result.split('\n');
+  // Iterate through the lines and create table rows
+  lines.forEach((line) => {
+    const cells = line.split(',');
+    const row = document.createElement('tr');
+    cells.forEach((cell) => {
+      const td = document.createElement('td');
+      td.textContent = cell;
+      row.appendChild(td);
+    });
+    table.appendChild(row);
   });
+  // Enable the clear and download buttons
+  clearButton.disabled = false;
+  downloadButton.disabled = false;
+};
+reader.readAsText(csvFileInput.files[0]);
+});
 
-  clearButton.addEventListener('click', () => {
-    // Remove all the table rows from the output div
-    while (outputDiv.firstChild) {
-      outputDiv.removeChild(outputDiv.firstChild);
-    }
-    // Disable the clear button
-    clearButton.disabled = true;
-  });
+clearButton.addEventListener('click', () => {
+// Remove all the table rows from the output div
+while (table.firstChild) {
+  table.removeChild(table.firstChild);
+}
+// Disable the clear and download buttons
+clearButton.disabled = true;
+downloadButton.disabled = true;
+});
+
+downloadButton.addEventListener('click', () => {
+// Get the contents of the table as a CSV string
+const rows = Array.from(table.querySelectorAll('tr'));
+const csv = rows.map((row) => {
+  const cells = Array.from(row.querySelectorAll('td'));
+  return cells.map((cell) => cell.textContent).join(',');
+}).join('\n');
+
+// Create a Blob object with the CSV string as the contents
+const blob = new Blob([csv], { type: 'text/csv' });
+
+// Create a URL for the exported file
+const url = URL.createObjectURL(blob);
+
+// Set the href and download attributes of the download button
+downloadButton.href = url;
+downloadButton.download = 'exported.csv';
+});
 </script>
 {% endblock %}
