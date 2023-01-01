@@ -3641,6 +3641,7 @@ def location():
 def location_edit():
     return render_template('retailereditor.html')
 
+'''
 @app.route('/AddItemForm', methods=['POST', 'GET'])
 @login_required
 def Add_Item():
@@ -3782,7 +3783,7 @@ def delete_item(id):
     return redirect(url_for('retrieve_items'))
 
 
-'''
+
 @app.route('/PurchaseItem', methods=['POST', 'GET'])
 @login_required
 def Purchase_Item():
