@@ -81,4 +81,56 @@
   </div>
 </section>
 </div>
+<div class="container mt-5">
+  <h1>CSV Viewer</h1>
+  <div class="form-group">
+    <input type="file" id="csv-file" accept=".csv" class="form-control-file">
+  </div>
+  <div class="form-group">
+    <button id="load-button" class="btn btn-primary">Load CSV</button>
+    <button id="clear-button" class="btn btn-secondary" disabled>Clear</button>
+  </div>
+  <div id="output" class="table-responsive mt-5">
+    <table class="table">
+    </table>
+  </div>
+</div>
+<script>
+  const loadButton = document.getElementById('load-button');
+  const clearButton = document.getElementById('clear-button');
+  const csvFileInput = document.getElementById('csv-file');
+  const outputDiv = document.getElementById('output');
+
+  loadButton.addEventListener('click', () => {
+    // Read the contents of the CSV file
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      // Split the contents of the file into lines
+      const lines = event.target.result.split('\n');
+      // Iterate through the lines and create table rows
+      lines.forEach((line) => {
+        const cells = line.split(',');
+        const row = document.createElement('tr');
+        cells.forEach((cell) => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          row.appendChild(td);
+        });
+        outputDiv.appendChild(row);
+      });
+      // Enable the clear button
+      clearButton.disabled = false;
+    };
+    reader.readAsText(csvFileInput.files[0]);
+  });
+
+  clearButton.addEventListener('click', () => {
+    // Remove all the table rows from the output div
+    while (outputDiv.firstChild) {
+      outputDiv.removeChild(outputDiv.firstChild);
+    }
+    // Disable the clear button
+    clearButton.disabled = true;
+  });
+</script>
 {% endblock %}
