@@ -2391,7 +2391,10 @@ def landing_page():
                 login_user(attempted_user)
                 # 'login_user' is a built-in function for flask_login
                 flash(f"Success! You are logged in as: {attempted_user.username}", category='success')
-                return redirect(url_for('home_page'))
+                if current_user.usertype == "retailers":
+                    return redirect(url_for('retail_homepage'))
+                else:
+                    return redirect(url_for('home_page'))
             else:
                 flash(f"{attempted_user.username} account has been disabled!"
                       f" Please contact Customer Support for more information.", category='danger')
@@ -3636,42 +3639,6 @@ def retail_homepage():
     admin_user()
     return render_template('retail.html', user=userID)
 
-@app.route('/retail/profile')
-@login_required
-def retail_profile():
-    retailer_dict = {}
-    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
-    retailer_id_db = shelve.open('website/databases/retailer/retailer_id_db', 'r')
-    id = 0
-
-    try:
-        try:
-                # if company data in database,
-            retailer_dict = retailer_db['Retailers']
-        except Exception as e:
-            print(f"An unknown error, \"{e}\" has occured!")
-
-        if "ID" in retailer_id_db:
-                id = retailer_id_db["ID"]
-
-        else:
-            retailer_id_db['ID'] = id
-
-                
-            retailer_db['Retailers'] = retailer_dict
-            retailer_id_db['ID'] = id
-            retailer_db.close()
-
-            retailer_list = []
-            for key in retailer_dict:
-                item = retailer_dict.get(key)
-                retailer_list.append(item)
-                
-    except Exception as e:
-            flash(f"{e} error occurred!", category='danger')
-    retailer_db.close()
-
-    return render_template("retail_profile.html", retailer_list=retailer_list)   
 
 @app.route('/location')
 @login_required
