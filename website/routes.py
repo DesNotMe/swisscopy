@@ -3626,10 +3626,47 @@ def retrieve_retailers():
 
 @app.route('/retail')
 @login_required
-def retailer_profile():
+def retail_homepage():
     userID = User.query.filter_by(id=current_user.id).first()
     admin_user()
     return render_template('retail.html', user=userID)
+
+@app.route('/retail/profile')
+@login_required
+def retail_profile():
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
+    retailer_id_db = shelve.open('website/databases/retailer/retailer_id_db', 'r')
+    id = 0
+
+    try:
+        try:
+                # if company data in database,
+            retailer_dict = retailer_db['Retailers']
+        except Exception as e:
+            print(f"An unknown error, \"{e}\" has occured!")
+
+        if "ID" in retailer_id_db:
+                id = retailer_id_db["ID"]
+
+        else:
+            retailer_id_db['ID'] = id
+
+                
+            retailer_db['Retailers'] = retailer_dict
+            retailer_id_db['ID'] = id
+            retailer_db.close()
+
+            retailer_list = []
+            for key in retailer_dict:
+                item = retailer_dict.get(key)
+                retailer_list.append(item)
+                
+    except Exception as e:
+            flash(f"{e} error occurred!", category='danger')
+    retailer_db.close()
+
+    return render_template("retail_profile.html", retailer_list=retailer_list)   
 
 @app.route('/location')
 @login_required
