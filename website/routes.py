@@ -3486,6 +3486,11 @@ def thankyou_page():
 @login_required
 def deals_page():
     return render_template('deals.html')
+@app.route('/chat')
+@login_required
+def chat_page():
+    return render_template('chat.html')
+
 
 #for dexter
 @app.route("/retail/registerRetail", methods=['GET', 'POST'])

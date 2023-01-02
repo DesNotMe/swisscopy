@@ -37,6 +37,16 @@
       </a>
     </div>
     <br>
+    <div id="DashboardModalContainer">
+        <a href="{{ url_for('Feedbacks') }}" class="TransferModalContainer__Button custom-cursor">
+          <h1 class="ContainerWord" id="DashboardContainerWord">Chat with admin</h1>
+          <div class="InnerButtonContainer">
+            <div class="TransferModalContainer__inner">
+              <img class="img4" src="../static/img/Dashboard_Icon.png" alt="Icon Goes here!">
+            </div>
+          </div>
+        </a>
+      </div>
     
     <!-- Dashboard Page -->
     <div id="DashboardModalContainer">
@@ -58,6 +68,18 @@
         <div class="InnerButtonContainer">
           <div class="TransferModalContainer__inner">
             <img class="img3" src="../static/img/person-transporting-box.webp" alt="Icon Goes here!">
+          </div>
+        </div>
+      </a>
+    </div>
+    <br>
+<!--chat with admin-->
+    <div id="ChatModalContainer">
+      <a href="{{ url_for('chat_page') }}" class="TransferModalContainer__Button custom-cursor">
+        <h1 class="ContainerWord" id="ChatContainerWord">Chat with admin</h1>
+        <div class="InnerButtonContainer">
+          <div class="TransferModalContainer__inner">
+            <img class="img5" src="../static/img/Chat_Icon.png" alt="Lets Chat">
           </div>
         </div>
       </a>
