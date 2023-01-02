@@ -43,7 +43,7 @@
     </td>
     <td class="text-right">
         <button class="btn btn-light" data-toggle="modal" data-target="#Modal-MoreInfo--{{i}}"><i class="fas fa-info-circle"></i></button>
-            <form action="{{ url_for('remove_from_cart') }}" class="d-inline-block" method="POST">
+            <form action="{{ url_for('remove_from_cart') }}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
                 <input type="hidden" name="uuid" value="{{i}}">
                 <input type="hidden" name="uuid2" value="{{cart_items[i].get_id()}}">
                 <input type="hidden" name="uuid3" value="{{cart_items[i].get_owner_id()}}">

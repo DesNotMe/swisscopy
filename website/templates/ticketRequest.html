@@ -37,7 +37,7 @@
     {% else %}
     <p">Status: <var style="color:red;">{{ tickets[i].get_pending_status() }}</var></p>
     {% endif %}
-    <form action="{{url_for('delete_ticket_request',id=i)}}" class="d-inline-block" method="POST">
+    <form action="{{url_for('delete_ticket_request',id=i)}}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>&nbsp;
         {% if tickets[i].get_pending_status() == 'Pending' %}

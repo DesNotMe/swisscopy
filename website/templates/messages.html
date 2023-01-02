@@ -31,7 +31,7 @@
     {% else %}
     <p>Status: <var style="color:red;"> {{tickets_response[i].get_issue_status()}}</var></p>
     {% endif %}
-    <form action="{{url_for('delete_messages_page',id=tickets_response[i].get_id() ) }}" class="d-inline-block" method="POST">
+    <form action="{{url_for('delete_messages_page',id=tickets_response[i].get_id() ) }}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>&nbsp;
     </div> <!-- card-body.// -->
