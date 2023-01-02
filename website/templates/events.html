@@ -13,7 +13,7 @@
     </div>
         <br>
         {% for i in events %}
-        <div class="d-inline-block w-100">
+        <div class="d-inline-block bg-gradient-info neomorphic w-100">
             <div class="col-12 shadow p-3 mb-5 bg-primary rounded d-inline-block w-100", style="color:black; background-color: azure!important;">
 
                 <form action="{{url_for('deleteEvents')}}" class="" method="POST">
@@ -27,7 +27,7 @@
                 <br>
                 <p class=""><b>Created On: {{events[i].get_date_added()}} {{events[i].get_time_added()}}</b></p>
                 <p class=""><p><b>Last Updated On: {{events[i].get_update_date()}} {{events[i].get_updated_time()}}</b></p>
-                <form action="{{url_for('deleteEvents')}}" class="d-inline-block" method="POST">
+                <form action="{{url_for('deleteEvents')}}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
                     <input type="hidden" name="uuid" value="{{events[i].get_id()}}">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -86,7 +86,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{url_for('updateEvents')}}" class="d-inline-block" method="POST">
+        <form action="{{url_for('updateEvents')}}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
         <div class="modal-body">
             <input type="hidden" name="uuid" value="{{ events[i].get_id() }}">
                 {{ form.title.label() }}

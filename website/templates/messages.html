@@ -13,15 +13,15 @@
 {% block content %}
 
 <div class="container-fluid" style="margin-top: 30px;">
-<div class="bg-gradient-info text-white shadow-lg " style="padding: 35px;">
+<div class="bg-gradient-info neomorphic text-white shadow-lg " style="padding: 35px;">
   <h1 class="h3 mb-2 " style=" color:white;">Messages</h1>
 </div>
 
 
 {% for i in tickets_response %}
 <div class="card mx-auto shadow" style="margin-top: 5px;" >
-    <div class="card-body">
-    <h4 class="card-title mb-4">{{tickets_response[i].get_title()}}</h4>
+    <div class="card-body neomorphic custom-cursor">
+    <h4 class="card-title custom-cursor mb-4">{{tickets_response[i].get_title()}}</h4>
     <p style="width: 400px; word-wrap: break-word;"></p>
     <p>{{tickets_response[i].get_description()}} </p>
     <p>Owner: {{tickets_response[i].get_owner()}}</p>
@@ -31,7 +31,7 @@
     {% else %}
     <p>Status: <var style="color:red;"> {{tickets_response[i].get_issue_status()}}</var></p>
     {% endif %}
-    <form action="{{url_for('delete_messages_page',id=tickets_response[i].get_id() ) }}" class="d-inline-block" method="POST">
+    <form action="{{url_for('delete_messages_page',id=tickets_response[i].get_id() ) }}" class="d-inline-block bg-gradient-info neomorphic" method="POST">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>&nbsp;
     </div> <!-- card-body.// -->

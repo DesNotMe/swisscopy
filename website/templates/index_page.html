@@ -9,6 +9,24 @@
 </head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
+<!--forced loading-->
+<div id="loading-screen" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; z-index: 999;">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<script>function delayLoading() {
+  const loadingScreen = document.getElementById('loading-screen');
+
+  setTimeout(() => {
+    loadingScreen.style.display = 'none';
+  }, 1000);
+}</script>
+<script>
+  delayLoading();
+</script>
 <style>
     body {
         font-family: 'Roboto', sans-serif;
@@ -125,20 +143,20 @@
             <br>
             <div class="card-deck mt-4">
               <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">"I love my new walking stick! It's so much more comfortable and stylish than my old one."</h5>
+                <div class="card-body neomorphic custom-cursor">
+                  <h5 class="card-title custom-cursor">"I love my new walking stick! It's so much more comfortable and stylish than my old one."</h5>
                   <p class="card-text">- Sarah, Senior Citizen</p>
                 </div>
               </div>
               <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">"I'm a senior and my walking stick has given me so much more confidence and stability when I'm out and about."</h5>
+                <div class="card-body neomorphic custom-cursor">
+                  <h5 class="card-title custom-cursor">"I'm a senior and my walking stick has given me so much more confidence and stability when I'm out and about."</h5>
                   <p class="card-text">- Bob, Senior Citizen</p>
                 </div>
               </div>
               <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">"I have mobility issues and my walking stick has made a huge difference in my daily life. I'm so grateful I found this website!"</h5>
+                <div class="card-body neomorphic custom-cursor">
+                  <h5 class="card-title custom-cursor">"I have mobility issues and my walking stick has made a huge difference in my daily life. I'm so grateful I found this website!"</h5>
                   <p class="card-text">- Mary, Mobility Issue</p>
                 </div>
               </div>
