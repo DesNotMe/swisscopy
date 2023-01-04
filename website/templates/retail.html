@@ -12,18 +12,7 @@
       <h5>Good Afternoon, <span style="font-weight:bolder">{{user.username}}!</span></h5>
     </div>
     
-    <!-- Transfer Funds/ Deposit Page -->
-    <div id="TransferModalContainer" class="custom-cursor">
-        <a href="{{ url_for('Feedbacks') }}" class="TransferModalContainer__Button custom-cursor">
-          <h1 class="ContainerWord" id="DashboardContainerWord">Chat with admin</h1>
-          <div class="InnerButtonContainer">
-            <div class="TransferModalContainer__inner">
-              <img class="img4" src="../static/img/Dashboard_Icon.png" alt="Icon Goes here!">
-            </div>
-          </div>
-        </a>
-    </div>
-    <br>
+   
     
     <!-- Products Page -->
     <div id="ShoppingModalContainer">
@@ -31,23 +20,13 @@
         <h1 class="ContainerWord" id="ShoppingContainerWord">Products Page</h1>
         <div class="InnerButtonContainer">
           <div class="TransferModalContainer__inner">
-            <img class="img4" src="../static/img/chat_icon.png" alt="Icon Goes here!">
+            <img class="img4" src="../static/img/shopping_cart.png" alt="Icon Goes here!">
           </div>
         </div>
       </a>
     </div>
     <br>
-    <div id="DashboardModalContainer">
-        <a href="{{ url_for('Feedbacks') }}" class="TransferModalContainer__Button custom-cursor">
-          <h1 class="ContainerWord" id="DashboardContainerWord">Chat with admin</h1>
-          <div class="InnerButtonContainer">
-            <div class="TransferModalContainer__inner">
-              <img class="img4" src="../static/img/Dashboard_Icon.png" alt="Icon Goes here!">
-            </div>
-          </div>
-        </a>
-      </div>
-    
+   
     <!-- Dashboard Page -->
     <div id="DashboardModalContainer">
       <a href="{{ url_for('dashboard_page') }}" class="TransferModalContainer__Button custom-cursor">

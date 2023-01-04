@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from website import app, bcrypt
 from flask import render_template, request, flash, redirect, url_for, jsonify, Response
 from website.models import *
@@ -19,10 +20,11 @@ from werkzeug.utils import secure_filename
 
 # Note that for otp expiry, need to fiddle with js
 
+load_dotenv()
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'swissbothelper@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Pi!12345'
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 

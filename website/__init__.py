@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+import os
+from dotenv import load_dotenv
 from os import path
 
 
@@ -11,12 +13,13 @@ def create_database(app):
         db.create_all(app=app)
         print('Created Database! ')
 
+load_dotenv()
 
 app = Flask(__name__)
 DB_NAME = 'database.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 # create location/path for database
-app.config['SECRET_KEY']= '8fc3212d5891a594defe7d20'
+app.config['SECRET_KEY']= os.getenv("SECRET_KEY")
 db = SQLAlchemy(app)
 
 # enables the database
