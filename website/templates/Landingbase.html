@@ -19,7 +19,20 @@
     
 
 
-{% with messages = get_flashed_messages(with_categories=true) %}
+
+
+<div class="PageContent">
+    <img src="https://cdn.midjourney.com/0e0bdf38-eda5-4a95-b5b2-a3a414ba8c7f/grid_0.png" alt="Error!" width="100%" height="100%" style="overflow: hidden; position: absolute; top: 0; left: 0;">
+
+    <div class="Loginform">
+        {% block form %}
+            {% include 'includes/_form.html' %}
+        {% endblock %}
+    </div>
+
+    <div class="Content">
+        {% block content %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
                     <!--    with_categories = true means it grabs the categories as well for messages-->
                     {% if messages %}
                         {% for category, message in messages %}
@@ -36,19 +49,6 @@
                     {% endif %}
 
                     {% endwith %}
-
-<div class="PageContent">
-    <img src="https://cdn.midjourney.com/0e0bdf38-eda5-4a95-b5b2-a3a414ba8c7f/grid_0.png" alt="Error!" width="100%" height="100%" style="overflow: hidden; position: absolute; top: 0; left: 0;">
-
-    <div class="Loginform">
-        {% block form %}
-            {% include 'includes/_form.html' %}
-        {% endblock %}
-    </div>
-
-    <div class="Content">
-        {% block content %}
-        
         {% endblock %}
     </div>
 </div>
