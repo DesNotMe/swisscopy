@@ -79,7 +79,11 @@
 .open-chat{
     align-self:center;
 }
+.gpt{
+    
+}
   </style>
+
 <!-- index.html -->
 
 <!-- Chat window --><center>
@@ -164,6 +168,17 @@
     
       // Clear input
       input.value = '';
+    
+      // Respond with "I will get back to you on that"
+      const response = document.createElement('div');
+      response.classList.add('message', 'received');
+      response.innerHTML = `
+        <div class="avatar"></div>
+        <div class="text">I will get back to you on that.</div>
+      `;
+      body.appendChild(response);
+      scrollToBottom();
     });
-</script>
+    
+</script><br><br>
 {% endblock %}
