@@ -7,12 +7,20 @@
 <div class="row">
     <aside class="col-md-3">
         <ul class="list-group">
-            <a class="list-group-item " href="{{ url_for('profile_page') }}"> Account overview  </a>
-            <a class="list-group-item " href="{{ url_for('past_orders') }}"> My Orders </a>
+            {% if current_user.usertype != "retailers" %}
+            <a class="list-group-item active" href="{{ url_for('profile_page') }}"> Account overview  </a>
+            <a class="list-group-item" href="{{ url_for('past_orders') }}"> My Orders </a>
             <a class="list-group-item" href="{{ url_for('wish_list') }}"> My wishlist </a>
-            <a class="list-group-item active" href="{{ url_for('appointment') }}">Bookings </a>
-            <a class="list-group-item" href="{{ url_for('Inventory_Management') }}"> My Selling Items </a>
+            <a class="list-group-item" href="{{ url_for('appointment') }}">Bookings</a>
             <a class="list-group-item" href="{{ url_for('ticket_history') }}"> Ticket History </a>
+            {% else %}
+            <a class="list-group-item active" href="{{ url_for('profile_page') }}"> Account overview  </a>
+            <a class="list-group-item" href="{{ url_for('past_orders') }}"> My Orders </a>
+            <a class="list-group-item" href="{{ url_for('wish_list') }}"> My wishlist </a>
+            <a class="list-group-item" href="{{ url_for('appointment') }}">Bookings</a>
+            <a class="list-group-item" href="{{ url_for('ticket_history') }}"> Ticket History </a>
+            <a class="list-group-item" href="{{ url_for('Inventory_Management') }}"> My Selling Items </a>
+            {% endif %}
         </ul>
     </aside> <!-- col.// -->
     <br>
