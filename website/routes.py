@@ -2541,7 +2541,7 @@ def forgot_password_page():
 
             msg = Message('Swiss Password Reset', sender='swissbothelper@gmail.com',
                           recipients=[form.email_address.data])
-            msg.body = f"Your one time password is, {otp}"
+            msg.body = f"Dear valued customer, \n\n We have received a request to reset the password for your account. In order to reset your password, please enter the following one-time password (OTP) when prompted: \n\n OTP:  {otp} \n\n Please note that this OTP will only be valid for the next 15 minutes. If you did not request a password reset, you can safely ignore this email. \n\n Thank you for choosing our service. \n\n Sincerely, \n\n Agegracefully"
             mail.send(msg)
             flash('Successfully sent! Please check your inbox for a one time password.', category='success')
 
