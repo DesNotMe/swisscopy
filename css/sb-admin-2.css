@@ -5798,9 +5798,18 @@ a.close.disabled {
 }
 
 .modal-body {
+  height: 250px;
   position: relative;
   flex: 1 1 auto;
   padding: 1rem;
+}
+
+@media (min-height: 500px) {
+  .modal-body { height: 400px; }
+}
+
+@media (min-height: 800px) {
+  .modal-body { height: 600px; }
 }
 
 .modal-footer {
