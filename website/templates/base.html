@@ -67,11 +67,19 @@
 
             <!-- Sidebar - Brand -->
             {% if current_user.is_authenticated %}
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('home_page') }}">
+              {% if current_user.usertype != "retailers" %}
+              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('home_page') }}">
+                  <div class="sidebar-brand-icon">
+                      <img src="../static/img/Swiss_Logo.png" alt="" height="30px">
+                  </div>
+              </a>
+              {% else %}
+              <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('retail_homepage') }}">
                 <div class="sidebar-brand-icon">
                     <img src="../static/img/Swiss_Logo.png" alt="" height="30px">
                 </div>
-            </a>
+              </a>
+              {% endif %}
             {% else %}
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('landing_page') }}">
                 <div class="sidebar-brand-icon">
@@ -92,12 +100,21 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
+            {% if current_user.usertype != "retailers" %}
                 <a class="nav-link" href="{{ url_for('home_page') }}">
                     <i class="fas fa-home"></i>
                     <span>Home</span></a>
                 <a class="nav-link" href="{{ url_for('dashboard_page') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
+            {% else %}
+                <a class="nav-link" href="{{ url_for('retail_homepage') }}">
+                  <i class="fas fa-home"></i>
+                  <span>Home</span></a>
+                <a class="nav-link" href="{{ url_for('dashboard_page') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            {% endif %}
             </li>
 
             <!-- Divider -->
@@ -597,24 +614,46 @@
           <h6 class="text-uppercase font-weight-bold">Company</h6>
           <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
         {% if current_user.is_authenticated %}
-          <p>
-            <a href="{{ url_for('home_page') }}">Home</a>
-          </p>
-          <p>
-            <a href="{{ url_for('about_us_page') }}">About Us</a>
-          </p>
-          <p>
-            <a href="{{ url_for('legal') }}">Legal</a>
-          </p>
-          <p>
-            <a href="{{ url_for('articles') }}">Articles</a>
-          </p>
-          <p>
-            <a href="{{ url_for('deals_page') }}">Deals</a>
-          </p>
-          <p>
-            <a href="{{ url_for('location') }}">Retail Location</a>
-          </p>
+          {% if current_user.usertype == "retailers" %}
+            <p>
+              <a href="{{ url_for('retail_homepage') }}">Home</a>
+            </p>
+            <p>
+              <a href="{{ url_for('about_us_page') }}">About Us</a>
+            </p>
+            <p>
+              <a href="{{ url_for('legal') }}">Legal</a>
+            </p>
+            <p>
+              <a href="{{ url_for('articles') }}">Articles</a>
+            </p>
+            <p>
+              <a href="{{ url_for('deals_page') }}">Deals</a>
+            </p>
+            <p>
+              <a href="{{ url_for('location') }}">Retail Location</a>
+            </p>
+          {% else %}
+            <p>
+              <a href="{{ url_for('home_page') }}">Home</a>
+            </p>
+            <p>
+              <a href="{{ url_for('about_us_page') }}">About Us</a>
+            </p>
+            <p>
+              <a href="{{ url_for('legal') }}">Legal</a>
+            </p>
+            <p>
+              <a href="{{ url_for('articles') }}">Articles</a>
+            </p>
+            <p>
+              <a href="{{ url_for('deals_page') }}">Deals</a>
+            </p>
+            <p>
+              <a href="{{ url_for('location') }}">Retail Location</a>
+            </p>
+          {% endif %}
+
         {% else %}
           <p>
             <a href="{{ url_for('home_page') }}">Home</a>
