@@ -3504,7 +3504,6 @@ def retail_homepage():
     return render_template('retail.html', user=userID)
 
 @app.route("/registerRetail", methods=['GET', 'POST'])
-@login_required
 def register_retail():
     from website.models import Retail
     from website.forms import RegisterRetailerForm
@@ -3552,24 +3551,115 @@ def register_retail():
         return redirect(url_for('retrieve_retailers'))
     return render_template("registerRetail.html", form=form)
 
-@app.route('/registerRetail', methods=['GET', 'POST'])
-def register_page():
+@app.route('/retail/retail_database')
+@login_required
+def retrieve_retailers():
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+    retailer_dict = retailer_db["Retailers"]
+
+    for key in retailer_dict:
+        print(retailer_dict[key])
+
+    print(retailer_dict)
+
+    retailer_db.close()
+
+    retailers_list = []
+    for key in retailer_dict:
+        retail = retailer_dict.get(key)
+        retailers_list.append(retail)
+
+    return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
+
+@app.route('/retail/retail_management')
+@login_required
+def retail_management():
+    users = User.query.all()
+    return render_template('User_Management.html', users=users)
+
+
+@app.route('/retail/registerRetailAccount/<int:id>', methods=['GET', 'POST'])
+@login_required
+def register_retail_account(id):
     db.create_all()
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+    retailer_dict = retailer_db["Retailers"]
+    for key in retailer_dict:
+        print(retailer_dict[key])
+
+    retailer = retailer_dict.get(id)
+   
+
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(username=form.username.data,
                               email_address=form.email_address.data,
                               password=form.password1.data,
                               usertype="retailers")
-        # 'password' = form.password1.data this is entering the hashed
-        # version of the password. Check models.py,
-        # @password.setter hashes the passwords
         db.session.add(user_to_create)
         db.session.commit()
-        login_user(user_to_create)
-        flash(f"Success! You are logged in as: {user_to_create.username}", category='success')
+    
+        flash(f"Success! Account {user_to_create.username} created!", category='success')
 
         return redirect(url_for('home_page'))
+
+    if form.errors != {}:  # If there are not errors from the validations
+        errors = []
+        for err_msg in form.errors.values():
+            errors.append(err_msg)
+        err_message = '<br/>'.join([f'({number}){error[0]}' for number, error in enumerate(errors, start=1)])
+        flash(f'{err_message}', category='danger')
+
+    return render_template('registerRetailAccount.html', form=form, retailer=retailer)
+
+
+@app.route('/retail/retail_management/update/<int:id>', methods=['POST', 'GET'])
+@login_required
+def retail_management_update(id):
+    userID = User.query.filter_by(id=id).first()
+    form = Update_User_Admin()
+
+    if request.method == 'POST' and form.validate_on_submit:
+        # NOTE THAT FORM DOES NOT VALIDATE ON SUBMIT!
+        # Also note that below does not work
+        userID.username = form.username.data
+        userID.email_address = form.email_address.data
+        db.session.commit()
+        print("User's Particulars updated to database successfully!")
+    else:
+        print("Some error occurred!")
+
+    if request.method == 'GET':
+        return render_template('Update_User_Management.html', form=form, user=userID)
+
+    print(form.errors)
+    return redirect(url_for('user_management'))
+
+
+@app.route('/retail/retail_management/enable/<int:id>', methods=['POST'])
+@login_required
+# Inheritance
+def retail_management_enable(id):
+    userID = User.query.filter_by(id=id).first()
+    userID.status = 'Enabled'
+    flash(f"{userID.username} account has been enabled", category='success')
+    db.session.commit()
+    return redirect(url_for('user_management'))
+
+
+@app.route('/retail_management/disable/<int:id>', methods=['POST'])
+@login_required
+# Inheritance
+def retail_management_disable(id):
+    # The problem is this, where I cannot find the ID.
+    userID = User.query.filter_by(id=id).first()
+    userID.status = 'Disabled'
+    flash(f'{userID.username} account has been disabled', category='danger')
+    db.session.commit()
+    return redirect(url_for('user_management'))
+
 
 @app.route('/retail/retailersedit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -3612,7 +3702,7 @@ def update_retailer(id):
         form.email_address.data = retailer.get_email_address()
         form.office_no.data = retailer.get_office_no()
 
-        return render_template('updateRetailer.html', form=form)
+        return render_template('updateRetailer.html', form=form, retailer=retailer)
 
 
 @app.route('/retail/delete/<int:id>', methods=['POST'])
@@ -3641,26 +3731,6 @@ def retailer_delete(id):
     #     flash(f"{e} went wrongly!")
 
     return redirect(url_for('retrieve_retailers'))
-
-
-
-@app.route('/retail/retail_database')
-@login_required
-def retrieve_retailers():
-    retailer_dict = {}
-    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
-    retailer_dict = retailer_db['Retailers']
-    print(retailer_dict)
-
-    retailer_db.close()
-
-    retailers_list = []
-    for key in retailer_dict:
-        retail = retailer_dict.get(key)
-        retailers_list.append(retail)
-
-    return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
-
 
 
 @app.route('/location')

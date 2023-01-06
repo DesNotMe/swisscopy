@@ -42,6 +42,7 @@
           <td>{{ retail.get_office_no() }}</td>
           <td>{{ retail.get_date_registered() }}</td>
           <td><a href="/updateRetail/{{ retail.get_retailer_id() }}" class="btn btn-warning">Update</a></td>
+          <td><a href="/retail/registerRetailAccount/{{ retail.get_retailer_id() }}" class="btn btn-primary">Create account</a></td>
           <td>
             <form action="{{url_for('retailer_delete', id=retail.get_retailer_id())}}" method="POST">
   <!-- Button to Open the Modal -->
