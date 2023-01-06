@@ -2257,7 +2257,7 @@ def register_page():
         user_to_create = User(username=form.username.data,
                               email_address=form.email_address.data,
                               password=form.password1.data,
-                              usertype=form.usertype.data)
+                              usertype="customers")
         # 'password' = form.password1.data this is entering the hashed
         # version of the password. Check models.py,
         # @password.setter hashes the passwords
@@ -3495,7 +3495,15 @@ def chat_page():
 
 
 #for dexter
-@app.route("/retail/registerRetail", methods=['GET', 'POST'])
+
+@app.route('/retail')
+@login_required
+def retail_homepage():
+    userID = User.query.filter_by(id=current_user.id).first()
+    admin_user()
+    return render_template('retail.html', user=userID)
+
+@app.route("/registerRetail", methods=['GET', 'POST'])
 @login_required
 def register_retail():
     from website.models import Retail
@@ -3543,6 +3551,25 @@ def register_retail():
 
         return redirect(url_for('retrieve_retailers'))
     return render_template("registerRetail.html", form=form)
+
+@app.route('/registerRetail', methods=['GET', 'POST'])
+def register_page():
+    db.create_all()
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data,
+                              email_address=form.email_address.data,
+                              password=form.password1.data,
+                              usertype="retailers")
+        # 'password' = form.password1.data this is entering the hashed
+        # version of the password. Check models.py,
+        # @password.setter hashes the passwords
+        db.session.add(user_to_create)
+        db.session.commit()
+        login_user(user_to_create)
+        flash(f"Success! You are logged in as: {user_to_create.username}", category='success')
+
+        return redirect(url_for('home_page'))
 
 @app.route('/retail/retailersedit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -3634,12 +3661,6 @@ def retrieve_retailers():
 
     return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
 
-@app.route('/retail')
-@login_required
-def retail_homepage():
-    userID = User.query.filter_by(id=current_user.id).first()
-    admin_user()
-    return render_template('retail.html', user=userID)
 
 
 @app.route('/location')
