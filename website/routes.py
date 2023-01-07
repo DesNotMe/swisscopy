@@ -209,8 +209,7 @@ def profile_page():
 
     return render_template('profile.html', username_form=update_username_form, email_form=update_email_form,
                            gender_form=update_gender_form, password_form=update_password_form,
-                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items),
-                           products=Products)
+                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items), products=Products)
 
 
 @app.route('/deleteProfile')
@@ -3543,13 +3542,109 @@ def register_retail():
                 retailer_db['Retailers'] = retailer_dict
                 retailer_id_db['ID'] = id
                 retailer_db.close()
+                flash(f"Submitted record successfully", category='success')
 
             except Exception as e:
                 flash(f"{e} error occurred!", category='danger')
             retailer_db.close()
 
-        return redirect(url_for('retrieve_retailers'))
+        return redirect(url_for('landing_page'))
     return render_template("registerRetail.html", form=form)
+
+@app.route('/retail/retail_profile/<int:id>')
+@login_required
+def retail_profile(id):
+    Owned_Items_Dict = {}
+
+    Wish_Dict = {}
+    Items_Dict = {}
+    Products = {}
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'r')
+        Wish_Database = shelve.open('website/databases/wishlist/wishlist.db', 'r')
+
+        if str(current_user.id) in Wish_Database:
+            Wish_Dict = Wish_Database[str(current_user.id)]
+            Wish_Database.close()
+        else:
+            Wish_Database[str(current_user.id)] = Wish_Dict
+            Wish_Database.close()
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+            Item_Database.close()
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+            Item_Database.close()
+
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    try:
+        products_database = shelve.open('website/databases/products/products.db', 'r')
+        if str(current_user.id) in products_database:
+            Products = products_database[str(current_user.id)]
+            products_database.close()
+
+        else:
+            products_database[str(current_user.id)] = Products
+            products_database.close()
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    try:
+        Owned_Items_Database = shelve.open('website/databases/Owned_Items/ownedItems.db', 'r')
+        if str(current_user.id) in Owned_Items_Database:
+            Owned_Items_Dict = Owned_Items_Database[str(current_user.id)]
+            Owned_Items_Database.close()
+        else:
+            Owned_Items_Database[str(current_user.id)] = Owned_Items_Dict
+            Owned_Items_Database.close()
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+
+    Selling_Items = []
+    print(Items_Dict)
+
+
+
+    for i in Items_Dict:
+        Item = Items_Dict.get(i)
+        if Item.get_owner_id() == current_user.id:
+            print('hello')
+            Selling_Items.append(Item)
+
+    update_username_form = Update_Username()
+    update_email_form = Update_Email()
+    update_gender_form = Update_Gender()
+    update_password_form = Update_Password()
+    update_retailer_form = UpdateRetailerForm
+    if update_username_form.validate_on_submit:
+        pass
+    if update_username_form.errors != {}:  # If there are not errors from the validations
+        errors = []
+        for err_msg in update_username_form.errors.values():
+            errors.append(err_msg)
+        err_message = '<br/>'.join([f'({number}){error[0]}' for number, error in enumerate(errors, start=1)])
+        flash(f'{err_message}', category='danger')
+
+    return render_template('retail_profile.html', username_form=update_username_form, email_form=update_email_form,
+                           gender_form=update_gender_form, retailer_form=update_retailer_form, password_form=update_password_form,
+                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items),
+                           products=Products)
+
+
+
+
 
 @app.route('/retail/retail_database')
 @login_required
@@ -3576,7 +3671,8 @@ def retrieve_retailers():
 @login_required
 def retail_management():
     users = User.query.all()
-    return render_template('User_Management.html', users=users)
+    print("Retailers: ", users)
+    return render_template('RetailAccount_Management.html', users=users)
 
 
 @app.route('/retail/registerRetailAccount/<int:id>', methods=['GET', 'POST'])
@@ -3635,7 +3731,7 @@ def retail_management_update(id):
         return render_template('Update_User_Management.html', form=form, user=userID)
 
     print(form.errors)
-    return redirect(url_for('user_management'))
+    return redirect(url_for('retail_management'))
 
 
 @app.route('/retail/retail_management/enable/<int:id>', methods=['POST'])
@@ -3646,10 +3742,10 @@ def retail_management_enable(id):
     userID.status = 'Enabled'
     flash(f"{userID.username} account has been enabled", category='success')
     db.session.commit()
-    return redirect(url_for('user_management'))
+    return redirect(url_for('retail_management'))
 
 
-@app.route('/retail_management/disable/<int:id>', methods=['POST'])
+@app.route('/retail/retail_management/disable/<int:id>', methods=['POST'])
 @login_required
 # Inheritance
 def retail_management_disable(id):
@@ -3658,7 +3754,7 @@ def retail_management_disable(id):
     userID.status = 'Disabled'
     flash(f'{userID.username} account has been disabled', category='danger')
     db.session.commit()
-    return redirect(url_for('user_management'))
+    return redirect(url_for('retail_management'))
 
 
 @app.route('/retail/retailersedit/<int:id>', methods=['GET', 'POST'])
