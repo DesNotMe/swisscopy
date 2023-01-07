@@ -154,10 +154,6 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="{{ url_for('supplier_page') }}">Suppliers</a>
-                        <a class="collapse-item" href="{{ url_for('create_supplier') }}">Add Suppliers</a>
-                        <a class="collapse-item" href="{{ url_for('partners_page') }}">Partners</a>
-                        <a class="collapse-item" href="{{ url_for('add_partners_page') }}">Add Partners</a>
                         <a class="collapse-item" href="{{ url_for('user_management') }}">User Management</a>
                         <a class="collapse-item" href="{{ url_for('ticket_requests_page') }}">Ticket Requests</a>
                         <a class="collapse-item" href="{{ url_for('Add_Item') }}">Add Item</a>
@@ -165,7 +161,7 @@
                         <a class="collapse-item" href="{{ url_for('Events_Page') }}">Events</a>
                         <a class="collapse-item" href="{{ url_for('Feedbacks') }}">User Feedbacks</a>
                         <a class="collapse-item" href="{{ url_for('retrieve_retailers') }}">Retailer List</a>
-                        
+                        <a class="collapse-item" href="{{ url_for('retail_management') }}">Retailer Account management</a>
                     </div>
                 </div>
             </li>
@@ -180,11 +176,6 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="{{ url_for('supplier_page') }}">Suppliers</a>
-                        <a class="collapse-item" href="{{ url_for('create_supplier') }}">Add Suppliers</a>
-                        <a class="collapse-item" href="{{ url_for('partners_page') }}">Partners</a>
-                        <a class="collapse-item" href="{{ url_for('add_partners_page') }}">Add Partners</a>
                         <!--this is your admin chat (if you want we can add a gun chat)-->
                         <a class="collapse-item" href="{{ url_for('ticket_requests_page') }}">Ticket Requests</a>
                         <a class="collapse-item" href="{{ url_for('Add_Item') }}">Add Item</a>
@@ -459,7 +450,7 @@
                             {% else %}
                               <!-- Dropdown - User Information -->
                               
-                                  <a class="dropdown-item" href="{{ url_for('profile_page') }}">
+                                  <a class="dropdown-item" href="/retail/retail_profile/{{ current_user.id }}">
                                       <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                       Profile
                                   </a>

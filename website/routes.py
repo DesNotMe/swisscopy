@@ -209,8 +209,7 @@ def profile_page():
 
     return render_template('profile.html', username_form=update_username_form, email_form=update_email_form,
                            gender_form=update_gender_form, password_form=update_password_form,
-                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items),
-                           products=Products)
+                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items), products=Products)
 
 
 @app.route('/deleteProfile')
@@ -3504,7 +3503,6 @@ def retail_homepage():
     return render_template('retail.html', user=userID)
 
 @app.route("/registerRetail", methods=['GET', 'POST'])
-@login_required
 def register_retail():
     from website.models import Retail
     from website.forms import RegisterRetailerForm
@@ -3544,32 +3542,236 @@ def register_retail():
                 retailer_db['Retailers'] = retailer_dict
                 retailer_id_db['ID'] = id
                 retailer_db.close()
+                flash(f"Submitted record successfully", category='success')
 
             except Exception as e:
                 flash(f"{e} error occurred!", category='danger')
             retailer_db.close()
 
-        return redirect(url_for('retrieve_retailers'))
+        return redirect(url_for('landing_page'))
     return render_template("registerRetail.html", form=form)
 
-@app.route('/registerRetail', methods=['GET', 'POST'])
-def register_page():
+@app.route('/retail/retail_profile/<int:id>')
+@login_required
+def retail_profile(id):
+    Owned_Items_Dict = {}
+
+    Wish_Dict = {}
+    Items_Dict = {}
+    Products = {}
+    try:
+        Item_Database = shelve.open('website/databases/items/items.db', 'r')
+        Wish_Database = shelve.open('website/databases/wishlist/wishlist.db', 'r')
+
+        if str(current_user.id) in Wish_Database:
+            Wish_Dict = Wish_Database[str(current_user.id)]
+            Wish_Database.close()
+        else:
+            Wish_Database[str(current_user.id)] = Wish_Dict
+            Wish_Database.close()
+        if 'ItemInfo' in Item_Database:
+            Items_Dict = Item_Database['ItemInfo']
+            Item_Database.close()
+        else:
+            Item_Database['ItemInfo'] = Items_Dict
+            Item_Database.close()
+
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    try:
+        products_database = shelve.open('website/databases/products/products.db', 'r')
+        if str(current_user.id) in products_database:
+            Products = products_database[str(current_user.id)]
+            products_database.close()
+
+        else:
+            products_database[str(current_user.id)] = Products
+            products_database.close()
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+    try:
+        Owned_Items_Database = shelve.open('website/databases/Owned_Items/ownedItems.db', 'r')
+        if str(current_user.id) in Owned_Items_Database:
+            Owned_Items_Dict = Owned_Items_Database[str(current_user.id)]
+            Owned_Items_Database.close()
+        else:
+            Owned_Items_Database[str(current_user.id)] = Owned_Items_Dict
+            Owned_Items_Database.close()
+    except IOError:
+        print("Unable to Read File")
+
+    except Exception as e:
+        print(f"An unknown error has occurred,{e}")
+
+
+    Selling_Items = []
+    print(Items_Dict)
+
+
+
+    for i in Items_Dict:
+        Item = Items_Dict.get(i)
+        if Item.get_owner_id() == current_user.id:
+            print('hello')
+            Selling_Items.append(Item)
+
+    update_username_form = Update_Username()
+    update_email_form = Update_Email()
+    update_gender_form = Update_Gender()
+    update_password_form = Update_Password()
+    update_retailer_form = UpdateRetailerForm
+    if update_username_form.validate_on_submit:
+        pass
+    if update_username_form.errors != {}:  # If there are not errors from the validations
+        errors = []
+        for err_msg in update_username_form.errors.values():
+            errors.append(err_msg)
+        err_message = '<br/>'.join([f'({number}){error[0]}' for number, error in enumerate(errors, start=1)])
+        flash(f'{err_message}', category='danger')
+
+    return render_template('retail_profile.html', username_form=update_username_form, email_form=update_email_form,
+                           gender_form=update_gender_form, retailer_form=update_retailer_form, password_form=update_password_form,
+                           owned_items=Owned_Items_Dict, wished_items=Wish_Dict, selling_items=len(Selling_Items),
+                           products=Products)
+
+
+
+
+
+@app.route('/retail/retail_database')
+@login_required
+def retrieve_retailers():
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+    retailer_dict = retailer_db["Retailers"]
+
+    for key in retailer_dict:
+        print(retailer_dict[key])
+
+    print(retailer_dict)
+
+    retailer_db.close()
+
+    retailers_list = []
+    for key in retailer_dict:
+        retail = retailer_dict.get(key)
+        retailers_list.append(retail)
+
+    return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
+
+@app.route('/retail/retail_management')
+@login_required
+def retail_management():
+    users = User.query.all()
+    print("Retailers: ", users)
+    return render_template('RetailAccount_Management.html', users=users)
+
+
+@app.route('/retail/registerRetailAccount/<int:id>', methods=['GET', 'POST'])
+@login_required
+def register_retail_account(id):
     db.create_all()
+    retailer_dict = {}
+    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'w')
+    retailer_dict = retailer_db["Retailers"]
+    for key in retailer_dict:
+        print(retailer_dict[key])
+
+    retailer = retailer_dict.get(id)
+   
+
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(username=form.username.data,
                               email_address=form.email_address.data,
                               password=form.password1.data,
                               usertype="retailers")
-        # 'password' = form.password1.data this is entering the hashed
-        # version of the password. Check models.py,
-        # @password.setter hashes the passwords
         db.session.add(user_to_create)
         db.session.commit()
-        login_user(user_to_create)
-        flash(f"Success! You are logged in as: {user_to_create.username}", category='success')
+        user_email = {}
+        user_email = form.email_address.data
+
+        db_tempemail = shelve.open('website/databases/tempemail/tempemail.db', 'c')
+        try:
+            db_tempemail['email'] = user_email
+            db_tempemail.close()
+        except Exception as e:
+            print(f'{e} error has occurred! Database will close!')
+            db_tempemail.close()
+            return redirect(url_for('register_retail_account', id=id))
+
+        msg = Message('Login credentials for retail account creation', sender='agegracefullybothelper@gmail.com',
+                          recipients=[form.email_address.data])
+        msg.body = f"Dear valued retailer, \n\n We have received a request to create a retail account for you. Your login credentials are: \nUsername: {form.username.data} \nPassword: {form.password1.data} \nPlease do not respond back to this message as this is just a bot account."
+        mail.send(msg)
+    
+        flash(f"Success! Account {user_to_create.username} created!", category='success')
 
         return redirect(url_for('home_page'))
+
+    if form.errors != {}:  # If there are not errors from the validations
+        errors = []
+        for err_msg in form.errors.values():
+            errors.append(err_msg)
+        err_message = '<br/>'.join([f'({number}){error[0]}' for number, error in enumerate(errors, start=1)])
+        flash(f'{err_message}', category='danger')
+
+    return render_template('registerRetailAccount.html', form=form, retailer=retailer)
+
+
+@app.route('/retail/retail_management/update/<int:id>', methods=['POST', 'GET'])
+@login_required
+def retail_management_update(id):
+    userID = User.query.filter_by(id=id).first()
+    form = Update_User_Admin()
+
+    if request.method == 'POST' and form.validate_on_submit:
+        # NOTE THAT FORM DOES NOT VALIDATE ON SUBMIT!
+        # Also note that below does not work
+        userID.username = form.username.data
+        userID.email_address = form.email_address.data
+        db.session.commit()
+        print("User's Particulars updated to database successfully!")
+    else:
+        print("Some error occurred!")
+
+    if request.method == 'GET':
+        return render_template('Update_User_Management.html', form=form, user=userID)
+
+    print(form.errors)
+    return redirect(url_for('retail_management'))
+
+
+@app.route('/retail/retail_management/enable/<int:id>', methods=['POST'])
+@login_required
+# Inheritance
+def retail_management_enable(id):
+    userID = User.query.filter_by(id=id).first()
+    userID.status = 'Enabled'
+    flash(f"{userID.username} account has been enabled", category='success')
+    db.session.commit()
+    return redirect(url_for('retail_management'))
+
+
+@app.route('/retail/retail_management/disable/<int:id>', methods=['POST'])
+@login_required
+# Inheritance
+def retail_management_disable(id):
+    # The problem is this, where I cannot find the ID.
+    userID = User.query.filter_by(id=id).first()
+    userID.status = 'Disabled'
+    flash(f'{userID.username} account has been disabled', category='danger')
+    db.session.commit()
+    return redirect(url_for('retail_management'))
+
 
 @app.route('/retail/retailersedit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -3612,7 +3814,7 @@ def update_retailer(id):
         form.email_address.data = retailer.get_email_address()
         form.office_no.data = retailer.get_office_no()
 
-        return render_template('updateRetailer.html', form=form)
+        return render_template('updateRetailer.html', form=form, retailer=retailer)
 
 
 @app.route('/retail/delete/<int:id>', methods=['POST'])
@@ -3641,26 +3843,6 @@ def retailer_delete(id):
     #     flash(f"{e} went wrongly!")
 
     return redirect(url_for('retrieve_retailers'))
-
-
-
-@app.route('/retail/retail_database')
-@login_required
-def retrieve_retailers():
-    retailer_dict = {}
-    retailer_db = shelve.open('website/databases/retailer/retailer.db', 'r')
-    retailer_dict = retailer_db['Retailers']
-    print(retailer_dict)
-
-    retailer_db.close()
-
-    retailers_list = []
-    for key in retailer_dict:
-        retail = retailer_dict.get(key)
-        retailers_list.append(retail)
-
-    return render_template('retail_database.html', count=len(retailers_list), retailers_list=retailers_list)
-
 
 
 @app.route('/location')
