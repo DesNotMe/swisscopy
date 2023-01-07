@@ -3696,6 +3696,22 @@ def register_retail_account(id):
                               usertype="retailers")
         db.session.add(user_to_create)
         db.session.commit()
+        user_email = {}
+        user_email = form.email_address.data
+
+        db_tempemail = shelve.open('website/databases/tempemail/tempemail.db', 'c')
+        try:
+            db_tempemail['email'] = user_email
+            db_tempemail.close()
+        except Exception as e:
+            print(f'{e} error has occurred! Database will close!')
+            db_tempemail.close()
+            return redirect(url_for('register_retail_account', id=id))
+
+        msg = Message('Login credentials for retail account creation', sender='agegracefullybothelper@gmail.com',
+                          recipients=[form.email_address.data])
+        msg.body = f"Dear valued retailer, \n\n We have received a request to create a retail account for you. Your login credentials are: \nUsername: {form.username.data} \nPassword: {form.password1.data} \nPlease do not respond back to this message as this is just a bot account."
+        mail.send(msg)
     
         flash(f"Success! Account {user_to_create.username} created!", category='success')
 
